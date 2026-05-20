@@ -42,7 +42,7 @@ class _SignInScreenState extends State<SignInScreen> {
       if (matchedUser != null) {
         // FIX: Pass the complete map object containing credentials and history
         AppState.login(matchedUser); 
-        Navigator.pushReplacementNamed(context, "/home");
+        Navigator.pushNamedAndRemoveUntil(context, "/home", (route)=> false);
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("Invalid email or password")),

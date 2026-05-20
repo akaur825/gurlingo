@@ -1,3 +1,16 @@
+//When a user clicks on any unlocked lesson from 
+//either the Sur or Raag list, they are sent here. 
+//This screen acts like a slideshow that moves 
+//through 3 phases:
+//     Phase 1 (Video): It shows a video player/placeholder
+//     explaining the musical concept.
+//     Phase 2 (Quiz): It automatically swaps out the video
+//     and loads a quiz related to that specific lesson.
+//     Phase 3 (Finished): It shows a completion screen 
+//     with a green checkmark or red "X", tells you your 
+//     score, updates your user profile with XP points, 
+//     saves it to the phone's memory, and gives you a 
+//     "Back" button to return to the list.
 import 'package:flutter/material.dart';
 import '../models/question.dart'; 
 import '../widgets/quiz_widget.dart';

@@ -1,3 +1,7 @@
+//It holds three other screens inside it: 
+//Sur, Home, and Raag. When you click a tab 
+//at the bottom, MainScreen swaps the middle of 
+//the page to show that screen.
 import 'package:flutter/material.dart';
 import 'home_screen.dart';
 import 'sur_lessons_screen.dart';

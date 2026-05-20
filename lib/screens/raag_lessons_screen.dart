@@ -1,3 +1,7 @@
+//It works exactly like the Sur screen, 
+//but it is for Raag lessons. It shows a
+// list of lessons where unlocked items 
+//are colored blue.
 import 'package:flutter/material.dart';
 import '../services/app_state.dart';
 import 'lesson_player_screen.dart';

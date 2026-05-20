@@ -56,7 +56,7 @@ void handleSignup() async {
           "completedRaagLessons": <String>[],
         }); 
         
-        Navigator.pushReplacementNamed(context, "/home");
+        Navigator.pushNamedAndRemoveUntil(context, "/home", (route) => false);
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("An account with this email already exists.")),

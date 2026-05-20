@@ -1,3 +1,4 @@
+//shows the home page w/ progress stuff
 import 'package:flutter/material.dart';
 import '../widgets/progress_circle.dart';
 import '../services/app_state.dart';

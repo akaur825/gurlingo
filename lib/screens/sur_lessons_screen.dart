@@ -1,3 +1,8 @@
+//It displays a vertical, scrollable list of lessons 
+//dedicated to training the user's ear for musical 
+//notes (Sur). It handles locking/unlocking lessons 
+//sequentially. Unlocked ones are orange, completed 
+//ones are green, and locked ones are grey.
 import 'package:flutter/material.dart';
 import '../services/app_state.dart';
 import 'lesson_player_screen.dart';
