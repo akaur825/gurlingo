@@ -23,8 +23,10 @@ class SurLessonsScreen extends StatelessWidget {
         title: const Text("Sur Recognition"),
         backgroundColor: Colors.transparent,
         elevation: 0,
+        automaticallyImplyLeading: false,
       ),
       body: ListView.builder(
+        physics: const ClampingScrollPhysics(),
         padding: const EdgeInsets.all(16),
         itemCount: surLessons.length,
         itemBuilder: (context, index) {

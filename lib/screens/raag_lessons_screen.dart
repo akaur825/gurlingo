@@ -22,8 +22,10 @@ class RaagLessonsScreen extends StatelessWidget {
         title: const Text("Raag Lessons"),
         backgroundColor: Colors.transparent,
         elevation: 0,
+        automaticallyImplyLeading: false,
       ),
       body: ListView.builder(
+        physics: const ClampingScrollPhysics(),
         padding: const EdgeInsets.all(16),
         itemCount: raagLessons.length,
         itemBuilder: (context, index) {

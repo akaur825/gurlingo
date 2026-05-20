@@ -24,6 +24,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Gurlingo',
+      scrollBehavior: const MaterialScrollBehavior().copyWith(
+        overscroll: false, 
+      ),
       initialRoute: '/',
       routes: {
         '/': (context) => const WelcomeScreen(),
