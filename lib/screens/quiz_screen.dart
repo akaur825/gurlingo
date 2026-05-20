@@ -55,7 +55,7 @@ class _QuizScreenState extends State<QuizScreen> {
           content: Text("You scored ${(score / questions.length * 100).toStringAsFixed(0)}%"),
           actions: [
             TextButton(
-              onPressed: () => Navigator.popUntil(context, ModalRoute.withName('/')), 
+              onPressed: () => Navigator.popUntil(context, ModalRoute.withName('/home')), 
               child: const Text("Finish"),
             )
           ],

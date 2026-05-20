@@ -31,6 +31,8 @@ Future<void> checkAuth() async {
 
   @override
   Widget build(BuildContext context) {
+    const Color brandBlue = Color(0xFF005099);
+
     if (checking) {
       return const Scaffold(
         body: Center(
@@ -40,6 +42,7 @@ Future<void> checkAuth() async {
     }
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Container(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
         child: Column(
@@ -49,10 +52,13 @@ Future<void> checkAuth() async {
 
             Image.asset(
               'assets/images/gurlingo_logo.png',
-              height: 300,
-              width: 300,
+              height: 400,
+              width: 400,
+              fit: BoxFit.contain,
             ),
 
+            const Spacer(),
+           
             Column(
               children: [
                 ElevatedButton(
@@ -60,9 +66,18 @@ Future<void> checkAuth() async {
                     Navigator.pushNamed(context, "/login");
                   },
                   style: ElevatedButton.styleFrom(
+                    backgroundColor: brandBlue,
+                    foregroundColor: Colors.white,
                     minimumSize: const Size(double.infinity, 56),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    elevation: 0,
                   ),
-                  child: const Text("Get Started"),
+                  child: const Text(
+                    "Get Started",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
                 ),
                 const SizedBox(height: 12),
                 OutlinedButton(
@@ -72,8 +87,16 @@ Future<void> checkAuth() async {
                   },
                   style: OutlinedButton.styleFrom(
                     minimumSize: const Size(double.infinity, 56),
+                    side: const BorderSide(color: brandBlue, width: 2), // Match the blue
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
                   ),
-                  child: const Text("I Already Have an Account"),
+                  child: const Text(
+                    "I Already Have an Account",
+                    style: TextStyle(color: brandBlue, fontWeight: FontWeight.w600),
+                  ),
+                    
                 ),
               ],
             ),

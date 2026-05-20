@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../models/question.dart'; // Ensure this is the correct path
+import '../models/question.dart'; 
 
 class QuizWidget extends StatefulWidget {
-  // FIX: Change QuizQuestion to Question to match your quiz_data.dart
+
   final List<Question> questions; 
   final Function(bool, int) onComplete;
 
@@ -20,10 +20,7 @@ class _QuizWidgetState extends State<QuizWidget> {
 
   void handleCheck() {
     if (selected == null) return;
-    
-  
     final isCorrect = selected == widget.questions[currentQ].answer;
-
     if (isCorrect) score++;
     setState(() => showResult = true);
   }

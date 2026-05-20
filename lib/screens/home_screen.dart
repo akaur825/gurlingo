@@ -32,7 +32,7 @@ class HomeScreen extends StatelessWidget {
                         const Text(
                           "ਵਾਹਿਗੁਰੂ ਜੀ ਕਾ ਖਾਲਸਾ ਵਾਹਿਗੁਰੂ ਜੀ ਕੀ ਫਤਿਹ",
                           style:
-                              TextStyle(fontSize: 16, color: Colors.grey),
+                              TextStyle(fontSize: 16, color: Color.fromARGB(255, 96, 96, 96)),
                         ),
                         const SizedBox(height: 6),
                         Text(
@@ -55,7 +55,7 @@ class HomeScreen extends StatelessWidget {
                         builder: (context) => AlertDialog(
                           title: const Text("Sign Out"),
                           content: const Text(
-                            "Are you sure? All your progress will be permanently deleted.",
+                            "Are you sure you want to Sign Out?",
                           ),
                           actions: [
                             TextButton(

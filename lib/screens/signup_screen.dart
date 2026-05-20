@@ -2,32 +2,35 @@ import 'package:flutter/material.dart';
 import '../services/local_storage_service.dart';
 import '../services/app_state.dart';
 
-class SignInScreen extends StatefulWidget {
-  const SignInScreen({super.key});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
 
   @override
-  State<SignInScreen> createState() => _SignInScreenState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _SignInScreenState extends State<SignInScreen> {
+class _LoginScreenState extends State<LoginScreen> {
+  final nameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   bool loading = false;
 
   @override
   void dispose() {
+    nameController.dispose();
     emailController.dispose();
     passwordController.dispose();
     super.dispose();
   }
 
-  void handleLogin() async {
+void handleSignup() async {
+    final name = nameController.text.trim();
     final email = emailController.text.trim();
     final password = passwordController.text.trim();
 
-    if (email.isEmpty || password.isEmpty) {
+    if (name.isEmpty || email.isEmpty || password.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Please fill in all fields")),
+        const SnackBar(content: Text("Please fill all fields")),
       );
       return;
     }
@@ -35,22 +38,33 @@ class _SignInScreenState extends State<SignInScreen> {
     setState(() => loading = true);
 
     try {
-      final matchedUser = await LocalStorageService.authenticateUser(email, password);
+      // Save to permanent storage & verify uniqueness
+      bool success = await LocalStorageService.saveUser(name, email, password);
 
       if (!mounted) return;
 
-      if (matchedUser != null) {
-        // FIX: Pass the complete map object containing credentials and history
-        AppState.login(matchedUser); 
+      if (success) {
+        // FIX: Pass a Map with the dynamic values to match your UserProgress.fromJson requirements
+        AppState.login({
+          "name": name,
+          "email": email,
+          "surLevel": 1,
+          "raagLevel": 1,
+          "totalXp": 0,
+          "streakDays": 0,
+          "completedSurLessons": <String>[],
+          "completedRaagLessons": <String>[],
+        }); 
+        
         Navigator.pushReplacementNamed(context, "/home");
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Invalid email or password")),
+          const SnackBar(content: Text("An account with this email already exists.")),
         );
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("An error occurred during login.")),
+        const SnackBar(content: Text("An error occurred. Please try again.")),
       );
     } finally {
       if (mounted) setState(() => loading = false);
@@ -60,22 +74,32 @@ class _SignInScreenState extends State<SignInScreen> {
   @override
   Widget build(BuildContext context) {
     const Color brandBlue = Color(0xFF005099);
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        iconTheme: const IconThemeData(color: brandBlue), 
+        iconTheme: const IconThemeData(color: brandBlue),
         title: const Text(
-          "Log In", 
+          "Get Started", 
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)
-        )
+        ),
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Column(
-          children: [
-            const SizedBox(height: 20),
+          children:[
+            TextField(
+              controller: nameController,
+              decoration: const InputDecoration(
+                labelText: "Full Name",
+                floatingLabelStyle: TextStyle(color: brandBlue),
+                focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: brandBlue, width: 2)),
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 16),
             TextField(
               controller: emailController,
               decoration: const InputDecoration(
@@ -90,7 +114,7 @@ class _SignInScreenState extends State<SignInScreen> {
               controller: passwordController,
               obscureText: true,
               decoration: const InputDecoration(
-                labelText: "Password",
+                labelText: "Create Password",
                 floatingLabelStyle: TextStyle(color: brandBlue),
                 focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: brandBlue, width: 2)),
                 border: OutlineInputBorder(),
@@ -101,7 +125,7 @@ class _SignInScreenState extends State<SignInScreen> {
               width: double.infinity,
               height: 55,
               child: ElevatedButton(
-                onPressed: loading ? null : handleLogin,
+                onPressed: loading ? null : handleSignup,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: brandBlue,
                   foregroundColor: Colors.white,
@@ -109,7 +133,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 ),
                 child: loading 
                   ? const CircularProgressIndicator(color: Colors.white) 
-                  : const Text("Log In"),
+                  : const Text("Create Account"),
               ),
             ),
           ],

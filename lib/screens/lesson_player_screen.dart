@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../models/question.dart'; // Add this
+import '../models/question.dart'; 
 import '../widgets/quiz_widget.dart';
 import '../widgets/video_placeholder.dart';
 import '../services/app_state.dart';
@@ -8,7 +8,7 @@ import '../models/user_progress.dart';
 enum LessonPhase { video, quiz, finished }
 
 class LessonPlayer extends StatefulWidget {
-  final Lesson lesson; // Sur or Raag lesson
+  final Lesson lesson; 
   final String lessonType; // "sur" or "raag"
 
   const LessonPlayer({
@@ -23,45 +23,43 @@ class LessonPlayer extends StatefulWidget {
 
 class _LessonPlayerState extends State<LessonPlayer> {
   LessonPhase phase = LessonPhase.video;
-  int currentQuestion = 0;
   int score = 0;
 
-  void _handleAnswer(bool correct) {
-    if (correct) score += 1;
-
-    if (currentQuestion + 1 < widget.lesson.questions.length) {
-      setState(() {
-        currentQuestion += 1;
-      });
-    } else {
-      _finishLesson();
-    }
-  }
-
-  void _finishLesson() {
-    final user = AppState.currentUser ?? UserProgress(username: "Guest");
-    final completedList = widget.lessonType == 'sur'
-        ? user.completedSurLessons
-        : user.completedRaagLessons;
-
-    if (!completedList.contains(widget.lesson.id)) {
-      completedList.add(widget.lesson.id);
-    }
-
-    user.totalXp += score * 10;
-
-    if (widget.lessonType == 'sur') {
-      user.surLevel = completedList.length;
-    } else {
-      user.raagLevel = completedList.length;
-    }
-
-    // Update AppState globally
-    AppState.saveUser(user);
-
+  // FIX: Unified lesson completion logic that pushes to permanent storage layers
+  void _finishLesson(int finalScore) async {
     setState(() {
-      phase = LessonPhase.finished;
+      score = finalScore;
     });
+
+    final user = AppState.currentUser;
+    if (user != null) {
+      final completedList = widget.lessonType == 'sur'
+          ? user.completedSurLessons
+          : user.completedRaagLessons;
+
+      // Track completion list strings securely
+      if (!completedList.contains(widget.lesson.id)) {
+        completedList.add(widget.lesson.id);
+      }
+
+      if (widget.lessonType == 'sur') {
+        user.completedSurLessons = completedList;
+      } else {
+        user.completedRaagLessons = completedList;
+      }
+
+      // Calculate XP added to profile mapping
+      int xpGained = finalScore * 10;
+
+      // FIX: Updates local runtime values AND saves data down to SharedPreferences
+      await AppState.addXpAndSave(xpGained);
+    }
+
+    if (mounted) {
+      setState(() {
+        phase = LessonPhase.finished;
+      });
+    }
   }
 
   void _goBack() {
@@ -70,8 +68,6 @@ class _LessonPlayerState extends State<LessonPlayer> {
 
   @override
   Widget build(BuildContext context) {
-    final user = AppState.currentUser ?? UserProgress(username: "Guest");
-
     return Scaffold(
       backgroundColor: const Color(0xFFF7F7F7),
       appBar: AppBar(
@@ -85,12 +81,12 @@ class _LessonPlayerState extends State<LessonPlayer> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
-        child: _buildBody(user),
+        child: _buildBody(),
       ),
     );
   }
 
-  Widget _buildBody(UserProgress user) {
+  Widget _buildBody() {
     switch (phase) {
       case LessonPhase.video:
         return VideoPlaceholder(
@@ -105,17 +101,15 @@ class _LessonPlayerState extends State<LessonPlayer> {
       case LessonPhase.quiz:
         return QuizWidget(
           questions: widget.lesson.questions,
-          onComplete: (passed, finalScore) { // Changed from onAnswer
-            setState(() {
-              score = finalScore;
-              phase = LessonPhase.finished;
-            });
+          onComplete: (passed, finalScore) { 
+            _finishLesson(finalScore);
           },
         );
 
       case LessonPhase.finished:
         final totalQuestions = widget.lesson.questions.length;
-        final passed = score >= (totalQuestions * 0.7).ceil();
+        final passed = totalQuestions > 0 ? score >= (totalQuestions * 0.7).ceil() : true;
+        
         return Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
