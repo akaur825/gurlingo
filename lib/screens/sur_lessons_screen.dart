@@ -20,7 +20,13 @@ class SurLessonsScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFFF7F7F7),
       appBar: AppBar(
-        title: const Text("Sur Recognition"),
+        title: const Text(
+          "Sur Recognition",
+          style: TextStyle(
+            fontSize: 26,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         backgroundColor: Colors.transparent,
         elevation: 0,
         automaticallyImplyLeading: false,
@@ -93,7 +99,12 @@ class SurLessonsScreen extends StatelessWidget {
           children: [
             CircleAvatar(
               backgroundColor: Colors.white,
-              child: Icon(icon),
+              child: Icon(
+                icon,
+                color: unlocked || completed 
+                  ? const Color(0xFF005099) 
+                  : Colors.grey, // Grey icon for locked cards, blue for active/done ones
+              ),
             ),
             const SizedBox(width: 16),
             Expanded(child: Text(lesson.title)),

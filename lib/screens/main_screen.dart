@@ -25,6 +25,7 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    const Color brandBlue = Color(0xFF005099);
     return Scaffold(
       body: screens[currentIndex],
 
@@ -35,6 +36,9 @@ class _MainScreenState extends State<MainScreen> {
             currentIndex = index;
           });
         },
+
+        selectedItemColor: brandBlue,
+        unselectedItemColor: Colors.grey,
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.mic),

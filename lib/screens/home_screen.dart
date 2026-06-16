@@ -33,7 +33,7 @@ class HomeScreen extends StatelessWidget {
                         const Text(
                           "ਵਾਹਿਗੁਰੂ ਜੀ ਕਾ ਖਾਲਸਾ ਵਾਹਿਗੁਰੂ ਜੀ ਕੀ ਫਤਿਹ",
                           style:
-                              TextStyle(fontSize: 16, color: Color.fromARGB(255, 96, 96, 96)),
+                              TextStyle(fontSize: 16, color: Color.fromARGB(255, 51, 51, 51)),
                         ),
                         const SizedBox(height: 6),
                         Text(
