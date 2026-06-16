@@ -2,15 +2,17 @@ class Question {
   final String prompt;
   final List<String> options;
   final dynamic answer; // int for index, bool for true/false
-  final String type;    // "identify", "true-false", "audio"
-  final String? audioPath;
+  final String type;    // "text", "audio_question", "audio_options"
+  final String? audioPath; // Used when the question prompt has audio
+  final List<String>? optionAudioPaths; // 👇 Added: Used when answer choices are audio
 
   Question({
     required this.prompt,
     required this.options,
     required this.answer,
-    this.type = "identify",
+    this.type = "text", // Default to simple text multiple-choice
     this.audioPath,
+    this.optionAudioPaths,
   });
 }
 

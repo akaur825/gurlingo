@@ -23,9 +23,32 @@ class VideoPlaceholder extends StatelessWidget {
         const SizedBox(height: 20),
         Text(description, style: const TextStyle(fontSize: 16)),
         const Spacer(),
-        ElevatedButton(
-          onPressed: onContinue,
-          child: const Text("I'm ready for the quiz"),
+        
+        // 👇 UPDATED BUTTON WITH THE NEW STYLING AND PADDING
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
+          child: SizedBox(
+            width: double.infinity, // This makes the button comfortably wide
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF005099), // Brand Blue
+                foregroundColor: Colors.white,            // White Text
+                padding: const EdgeInsets.symmetric(vertical: 16), // Thicker button
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(18), // Smooth corners
+                ),
+                elevation: 2,
+              ),
+              onPressed: onContinue,
+              child: const Text(
+                "I'm ready for the quiz",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
         ),
       ],
     );

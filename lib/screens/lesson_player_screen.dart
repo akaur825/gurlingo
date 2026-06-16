@@ -2,21 +2,21 @@
 //either the Sur or Raag list, they are sent here. 
 //This screen acts like a slideshow that moves 
 //through 3 phases:
-//     Phase 1 (Video): It shows a video player/placeholder
-//     explaining the musical concept.
-//     Phase 2 (Quiz): It automatically swaps out the video
-//     and loads a quiz related to that specific lesson.
-//     Phase 3 (Finished): It shows a completion screen 
-//     with a green checkmark or red "X", tells you your 
-//     score, updates your user profile with XP points, 
-//     saves it to the phone's memory, and gives you a 
-//     "Back" button to return to the list.
+//    Phase 1 (Video): It shows a video player/placeholder
+//    explaining the musical concept.
+//    Phase 2 (Quiz): It automatically swaps out the video
+//    and loads a quiz related to that specific lesson.
+//    Phase 3 (Finished): It shows a completion screen 
+//    with a green checkmark or red "X", tells you your 
+//    score, updates your user profile with XP points, 
+//    saves it to the phone's memory, and gives you a 
+//    "Back" button to return to the list.
+import '../data/quiz_data.dart';
 import 'package:flutter/material.dart';
 import '../models/question.dart'; 
 import '../widgets/quiz_widget.dart';
 import '../widgets/video_placeholder.dart';
 import '../services/app_state.dart';
-import '../models/user_progress.dart';
 
 enum LessonPhase { video, quiz, finished }
 
@@ -38,7 +38,7 @@ class _LessonPlayerState extends State<LessonPlayer> {
   LessonPhase phase = LessonPhase.video;
   int score = 0;
 
-  // FIX: Unified lesson completion logic that pushes to permanent storage layers
+  // Unified lesson completion logic that pushes to permanent storage layers
   void _finishLesson(int finalScore) async {
     setState(() {
       score = finalScore;
@@ -64,7 +64,7 @@ class _LessonPlayerState extends State<LessonPlayer> {
       // Calculate XP added to profile mapping
       int xpGained = finalScore * 10;
 
-      // FIX: Updates local runtime values AND saves data down to SharedPreferences
+      // Updates local runtime values AND saves data down to SharedPreferences
       await AppState.addXpAndSave(xpGained);
     }
 
@@ -100,6 +100,9 @@ class _LessonPlayerState extends State<LessonPlayer> {
   }
 
   Widget _buildBody() {
+    // 👇 FIXED: Changed split('_') to split('-') to correctly read your IDs like 'sur-1'
+    final int lessonLevel = int.tryParse(widget.lesson.id.split('-').last) ?? 1;
+
     switch (phase) {
       case LessonPhase.video:
         return VideoPlaceholder(
@@ -112,15 +115,29 @@ class _LessonPlayerState extends State<LessonPlayer> {
         );
 
       case LessonPhase.quiz:
+        final String formattedType = widget.lessonType.toLowerCase() == 'sur' ? 'Sur' : 'Raag';
+        
+        final quizQuestions = QuizData.getQuestions(formattedType, lessonLevel);
+
+        if (quizQuestions.isEmpty) {
+          return Center(
+            child: Text(
+              "No quiz questions found for $formattedType Level $lessonLevel!",
+              style: const TextStyle(fontSize: 16, color: Colors.red),
+            ),
+          );
+        }
+
         return QuizWidget(
-          questions: widget.lesson.questions,
+          questions: quizQuestions,
           onComplete: (passed, finalScore) { 
             _finishLesson(finalScore);
           },
         );
 
       case LessonPhase.finished:
-        final totalQuestions = widget.lesson.questions.length;
+        final String formattedType = widget.lessonType.toLowerCase() == 'sur' ? 'Sur' : 'Raag';
+        final totalQuestions = QuizData.getQuestions(formattedType, lessonLevel).length;
         final passed = totalQuestions > 0 ? score >= (totalQuestions * 0.7).ceil() : true;
         
         return Center(
