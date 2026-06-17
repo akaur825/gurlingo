@@ -38,7 +38,7 @@ class _MainScreenState extends State<MainScreen> {
         },
 
         selectedItemColor: brandBlue,
-        unselectedItemColor: Colors.grey,
+        unselectedItemColor: const Color.fromARGB(255, 76, 76, 76),
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.mic),
