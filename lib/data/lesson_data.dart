@@ -50,20 +50,6 @@ final List<Lesson> surLessons = [
     videoDescription: 'Learn how to incorporate Ni', // DO NOT MISS THIS
     questions: [], 
   ),
-  Lesson(
-    id: 'sur-8',
-    title: 'Vakrit Surs: Komal',
-    description: 'Learn about the Komal Surs',
-    videoDescription: 'Learn how to incorporate the Komal Surs', // DO NOT MISS THIS
-    questions: [], 
-  ),
-    Lesson(
-    id: 'sur-9',
-    title: 'Vakrit Surs: Teevar',
-    description: 'Learn about the Teevar Surs',
-    videoDescription: 'Learn how to incorporate the Teevar Surs', // DO NOT MISS THIS
-    questions: [], 
-  ),
 ];
 
 final List<Lesson> raagLessons = [

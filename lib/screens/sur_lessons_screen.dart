@@ -10,11 +10,17 @@ import '../data/lesson_data.dart';
 import '../models/user_progress.dart';
 import '../models/question.dart';
 
-class SurLessonsScreen extends StatelessWidget {
+class SurLessonsScreen extends StatefulWidget {
   const SurLessonsScreen({super.key});
 
   @override
+  State<SurLessonsScreen> createState() => _SurLessonsScreenState();
+}
+
+class _SurLessonsScreenState extends State<SurLessonsScreen> {
+  @override
   Widget build(BuildContext context) {
+    // Pulls fresh user progress every time the widget builds or rebuilds
     final user = AppState.currentUser ?? UserProgress(username: "Guest");
 
     return Scaffold(
@@ -85,7 +91,10 @@ class SurLessonsScreen extends StatelessWidget {
                     lessonType: 'sur',
                   ),
                 ),
-              );
+              ).then((_) {
+                // This triggers when you exit the lesson/quiz and return here!
+                setState(() {});
+              });
             }
           : null,
       child: Container(
@@ -102,8 +111,8 @@ class SurLessonsScreen extends StatelessWidget {
               child: Icon(
                 icon,
                 color: unlocked || completed 
-                  ? const Color(0xFF005099) 
-                  : Colors.grey, // Grey icon for locked cards, blue for active/done ones
+                    ? const Color(0xFF005099) 
+                    : Colors.grey,
               ),
             ),
             const SizedBox(width: 16),

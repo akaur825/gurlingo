@@ -38,19 +38,24 @@ class _LessonPlayerState extends State<LessonPlayer> {
   LessonPhase phase = LessonPhase.video;
   int score = 0;
 
-  // Unified lesson completion logic that pushes to permanent storage layers
   void _finishLesson(int finalScore) async {
     setState(() {
       score = finalScore;
     });
 
+    final String formattedType = widget.lessonType.toLowerCase() == 'sur' ? 'Sur' : 'Raag';
+    final int lessonLevel = int.tryParse(widget.lesson.id.split('-').last) ?? 1;
+    final totalQuestions = QuizData.getQuestions(formattedType, lessonLevel).length;
+    
+    final passed = totalQuestions > 0 ? finalScore >= (totalQuestions * 0.75).ceil() : true;
+
     final user = AppState.currentUser;
-    if (user != null) {
+    
+    if (user != null && passed) {
       final completedList = widget.lessonType == 'sur'
           ? user.completedSurLessons
           : user.completedRaagLessons;
 
-      // Track completion list strings securely
       if (!completedList.contains(widget.lesson.id)) {
         completedList.add(widget.lesson.id);
       }
@@ -61,10 +66,7 @@ class _LessonPlayerState extends State<LessonPlayer> {
         user.completedRaagLessons = completedList;
       }
 
-      // Calculate XP added to profile mapping
       int xpGained = finalScore * 10;
-
-      // Updates local runtime values AND saves data down to SharedPreferences
       await AppState.addXpAndSave(xpGained);
     }
 
@@ -100,7 +102,6 @@ class _LessonPlayerState extends State<LessonPlayer> {
   }
 
   Widget _buildBody() {
-    // 👇 FIXED: Changed split('_') to split('-') to correctly read your IDs like 'sur-1'
     final int lessonLevel = int.tryParse(widget.lesson.id.split('-').last) ?? 1;
 
     switch (phase) {
@@ -116,7 +117,6 @@ class _LessonPlayerState extends State<LessonPlayer> {
 
       case LessonPhase.quiz:
         final String formattedType = widget.lessonType.toLowerCase() == 'sur' ? 'Sur' : 'Raag';
-        
         final quizQuestions = QuizData.getQuestions(formattedType, lessonLevel);
 
         if (quizQuestions.isEmpty) {
@@ -130,7 +130,7 @@ class _LessonPlayerState extends State<LessonPlayer> {
 
         return QuizWidget(
           questions: quizQuestions,
-          onComplete: (passed, finalScore) { 
+          onComplete: (quizPassed, finalScore) { 
             _finishLesson(finalScore);
           },
         );
@@ -138,31 +138,53 @@ class _LessonPlayerState extends State<LessonPlayer> {
       case LessonPhase.finished:
         final String formattedType = widget.lessonType.toLowerCase() == 'sur' ? 'Sur' : 'Raag';
         final totalQuestions = QuizData.getQuestions(formattedType, lessonLevel).length;
-        final passed = totalQuestions > 0 ? score >= (totalQuestions * 0.7).ceil() : true;
+        final passed = totalQuestions > 0 ? score >= (totalQuestions * 0.75).ceil() : true;
         
-        return Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                passed ? Icons.check_circle : Icons.cancel,
-                size: 80,
-                color: passed ? Colors.green : Colors.red,
+        return Column(
+          children: [
+            // Moves the scoring details neatly to the top/middle area
+            const Spacer(),
+            Icon(
+              passed ? Icons.check_circle : Icons.cancel,
+              size: 80,
+              color: passed ? Colors.green : Colors.red,
+            ),
+            const SizedBox(height: 20),
+            Text(
+              passed ? "Excellent!" : "Keep Practicing!",
+              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 10),
+            Text("You scored $score out of $totalQuestions", style: const TextStyle(fontSize: 16)),
+            const Spacer(),
+            
+            // 👇 THE UPDATED BUTTON MATCHING YOUR VIDEO PLACEHOLDER STYLING
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
+              child: SizedBox(
+                width: double.infinity, 
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF005099), // Brand Blue
+                    foregroundColor: Colors.white,            // White Text
+                    padding: const EdgeInsets.symmetric(vertical: 16), // Thicker button
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(18), // Smooth corners
+                    ),
+                    elevation: 2,
+                  ),
+                  onPressed: _goBack,
+                  child: const Text(
+                    "Back to Lessons",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
               ),
-              const SizedBox(height: 20),
-              Text(
-                passed ? "Excellent!" : "Keep Practicing!",
-                style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 10),
-              Text("You scored $score out of $totalQuestions"),
-              const SizedBox(height: 30),
-              ElevatedButton(
-                onPressed: _goBack,
-                child: const Text("Back"),
-              ),
-            ],
-          ),
+            ),
+          ],
         );
     }
   }

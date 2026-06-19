@@ -9,9 +9,14 @@ import '../data/lesson_data.dart';
 import '../models/user_progress.dart';
 import '../models/question.dart';
 
-class RaagLessonsScreen extends StatelessWidget {
+class RaagLessonsScreen extends StatefulWidget {
   const RaagLessonsScreen({super.key});
 
+  @override
+  State<RaagLessonsScreen> createState() => _RaagLessonsScreenState();
+}
+
+class _RaagLessonsScreenState extends State<RaagLessonsScreen> {
   @override
   Widget build(BuildContext context) {
     final user = AppState.currentUser ?? UserProgress(username: "Guest");
@@ -20,7 +25,7 @@ class RaagLessonsScreen extends StatelessWidget {
       backgroundColor: const Color(0xFFF7F7F7),
       appBar: AppBar(
         title: const Text(
-          "Sur Recognition",
+          "Raag Recognition", // Fixed title from "Sur" to "Raag"
           style: TextStyle(
             fontSize: 26,
             fontWeight: FontWeight.bold,
@@ -66,7 +71,7 @@ class RaagLessonsScreen extends StatelessWidget {
       bgColor = Colors.green.shade100;
       icon = Icons.check;
     } else if (unlocked) {
-      bgColor = Colors.blue.shade100;
+      bgColor = Colors.blue.shade100; // Kept your distinct blue look for Raag!
       icon = Icons.play_arrow;
     } else {
       bgColor = Colors.grey.shade200;
@@ -81,10 +86,13 @@ class RaagLessonsScreen extends StatelessWidget {
                 MaterialPageRoute(
                   builder: (_) => LessonPlayer(
                     lesson: lesson,
-                    lessonType: 'raag',
+                    lessonType: 'raag', // Spells out 'raag' type cleanly for the player
                   ),
                 ),
-              );
+              ).then((_) {
+                // Triggers a complete screen redraw when returning from the lesson/quiz
+                setState(() {});
+              });
             }
           : null,
       child: Container(
@@ -101,8 +109,8 @@ class RaagLessonsScreen extends StatelessWidget {
               child: Icon(
                 icon,
                 color: unlocked || completed 
-                  ? const Color(0xFF005099) 
-                  : Colors.grey, // Grey icon for locked cards, blue for active/done ones
+                    ? const Color(0xFF005099) 
+                    : Colors.grey,
               ),
             ),
             const SizedBox(width: 16),

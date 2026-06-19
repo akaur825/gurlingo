@@ -136,14 +136,14 @@ class QuizData {
       ),
       Question(
         prompt: "What is the mood of Raag Bilaval?",
-        options: ["Sad", "Mysterious", "Devotional", "Joyful and Happy"],
+        options: ["Sad and Depressing", "Mysterious", "Devotional", "Joyful and Happy"],
         answer: 3,
         type: "text",
       ),
       Question(
         prompt: "What is the Avroh of Raag Bilaval?",
         options: [
-          "Sa' Ni Dha Pa Ma Ga Re Sa",
+          "Sa' Ni Dha Pa Ma Ga Ma Re Sa",
           "Sa' Dha Ma Pa Ga Re Sa",
           "Sa' Ni Dha Pa Ga Re Sa",
           "Sa Re Ga Pa Dha Sa'"
@@ -229,7 +229,7 @@ class QuizData {
           "Sa Re Ga Ma Pa Dha Ni Dha Ni Sa'",
           "Sa re Ga ma Pa dha Ni Sa'"
         ],
-        answer: 3,
+        answer: 2,
         type: "text",
       ),
       Question(
@@ -268,7 +268,7 @@ class QuizData {
       ),
       Question(
         prompt: "What time is Raag Basant sung?",
-        options: ["Fall", "12pm-3pm", "Spring", "6pm-9pm"],
+        options: ["Summer", "12pm-3pm", "Spring", "6pm-9pm"],
         answer: 2,
         type: "text",
       ),
@@ -338,7 +338,7 @@ class QuizData {
       ),
       Question(
         prompt: "What is the Mishrat form of Raag Kalyan?",
-        options: ["Kalyam Bhupali", "Kalyan Maajh", "Kalyan Dakhani", "Kalyan Hindol"],
+        options: ["Kalyan Bhupali", "Kalyan Maajh", "Kalyan Dakhani", "Kalyan Hindol"],
         answer: 0,
         type: "text",
       ),
@@ -346,8 +346,8 @@ class QuizData {
         prompt: "What is the Avroh of Raag Kalyan?",
         options: [
           "Sa' Dha Pa Ma Ga Re Sa",
-          "Sa' Ni Pa Ga Sa",
-          "Sa' Ni Dha Pa ma Ga Re Sa",
+          "Sa' Ni Pa Ga Re Sa",
+          "Sa' Ni Dha Pa ma Ga Re Ni. Re Sa",
           "Sa' Ma Re Ga Sa"
         ],
         answer: 2,
@@ -360,18 +360,18 @@ class QuizData {
         type: "text",
       ),
       Question(
-        prompt: "What is the name of the Indian Classical version of Raag Kalyan?",
-        options: ["Raag Bmhimpilasi", "Raag Basant", "Raag Yaman", "Raag Khamaj"],
+        prompt: "What is the Jaati of Raag Kalyan?",
+        options: ["Shaudav Jaati", "Audav-Shaudav", "Shaudav-Sampooran", "Sampooran Jaati"],
         answer: 3,
         type: "text",
       ),
       Question(
         prompt: "What is the Aroh of Raag Kalyan?",
         options: [
-          "Sa Re Ga ma Pa Dha Ni Sa'",
-          "Sa Ga Ma Pa Dha Ni Sa'",
-          "Sa re Ma Pa Ni Dha Sa'",
-          "Sa Re Ga Ma Pa Dha Sa'"
+          "Sa Re Ga ma Pa ma Dha Ni Sa'",
+          "Sa Ga Ma Pa Dha Ni Dha Sa'",
+          "Sa re Ma ma Pa Ni Dha Sa'",
+          "Sa Re ga Ma Pa Dha ni Sa'"
         ],
         answer: 0,
         type: "text",
@@ -401,7 +401,7 @@ class QuizData {
       ),
       Question(
         prompt: "When is Raag Maaroo sung?",
-        options: ["In times of War and Death", "During Marriage", "During Battle", "In times of Death"],
+        options: ["In times of War and Death", "During Marriage", "During Weekends", "In times of Happiness and Joy"],
         answer: 0,
         type: "text",
       ),
@@ -524,7 +524,7 @@ class QuizData {
       Question(
         prompt: "What is the Aroh of Raag Todi?",
         options: [
-          "Sa re ga ma, Pa, ma dha Ni Sa'",
+          "Sa re ga ma Pa, ma dha Ni Sa'",
           "Sa Ga Ma Pa Ni Sa'",
           "Sa ga ma, Pa, ma dha ma Pa Ni Sa'",
           "Sa' Ni dha pa ma Ga re Sa"
@@ -656,7 +656,7 @@ class QuizData {
     return [
       Question(
         prompt: "What is the Aroh of Raag Malhaar?",
-        options: ["Sa Re Ga Ma Pa ni Dha Ni Sa'", "Sa Re Pa Dha Ni Sa'", "Sa, Re Ga Ma, Re Pa ni Dha Ni Sa'", "sa, re ga ma, re pa Ni dha ni sa'"],
+        options: ["Sa Re Ga Ma Pa ni Dha Ni Sa'", "Sa Re Pa Dha Ni Sa'", "Sa, Re Ga Ma, Ma Re Pa, ni Dha Ni Sa'", "sa, re ga ma, re pa Ni dha ni sa'"],
         answer: 2,
         type: "text",
       ),
@@ -692,7 +692,7 @@ class QuizData {
       ),
       Question(
         prompt: "What is the Avroh of Raag Malhaar?",
-        options: ["Sa Re Ga Ma Pa ni Dha Ni Sa'", "Sa' Dha Pa Ga Re Sa", "Sa' Ni Dha ni Pa Ma Ga Re Sa", "Sa' Dha ni Pa, Ga Ma Re Sa"],
+        options: ["Sa Re Ga Ma Pa ni Dha Ni Sa'", "Sa' Dha Pa Ga Re Sa", "Sa' Ni Dha ni Pa Ma Ga Re Sa", "Sa', Dha ni Pa Ma, Ga Ma Re, Sa"],
         answer: 3,
         type: "text",
       ),
@@ -749,8 +749,8 @@ class QuizData {
         type: "text",
       ),
       Question(
-        prompt: "What is the Aroh of Raag Bhairo?",
-        options: ["Sa Re Ga ma Pa Dha Ni Sa'", "sa Re Ga Ma pa Dha Ni sa'", "Sa Re Ga Ma Pa Dha Ni Sa'", "Sa re Ga Ma Pa dha Ni Sa'"],
+        prompt: "What is the Avroh of Raag Bhairo?",
+        options: ["Sa' Dha Pa Ga Ma Re Ni. Sa", "Sa' dha Pa Ma re Ga re Sa", "Sa' Ni Pa ga ga Ma Pa Ga re Sa", "Sa' Ni dha dha Pa Ga Ma re re Sa"],
         answer: 3,
         type: "text",
       ),
@@ -861,7 +861,7 @@ class QuizData {
         options: ["re", "Re", "ga", "Ga"],
         answer: 0,
         type: "audio_question",
-        audioPath: "assets/audio/questions/re2.mp3",
+        audioPath: "assets/audio/questions/re.mp3",
       ),
       Question(
         prompt: "What do you hear?",
@@ -903,7 +903,7 @@ class QuizData {
       ),
       Question(
         prompt: "What do you hear?",
-        options: ["Sa ga re", "Sa Ga Re", "ga Ga Re", "Ga ga Re"],
+        options: ["Sa ga re", "Sa Ga Re", "ga Ga Re", "Ga Sa ga"],
         answer: 3,
         type: "audio_question",
         audioPath: "assets/audio/questions/Level_2_Ga_ga_Re.mp3",
@@ -962,7 +962,7 @@ class QuizData {
       ),
       Question(
         prompt: "What do you hear?",
-        options: ["Sa re ga ma Pa ni", "sa re ma ga ma re", "Sa re Ma ga ma re", "Ma Ga Re Sa Ga Sa"],
+        options: ["Sa re ga ma Pa ni", "sa re ma ga ma re", "Sa re Ma ga re ma", "Ma Ga Re Sa Ga Sa"],
         answer: 2,
         type: "audio_question",
         audioPath: "assets/audio/questions/Level_3_Sa_re_Ma_ga_ma_re.mp3",
@@ -993,7 +993,7 @@ class QuizData {
       ),
       Question(
         prompt: "What do you hear?",
-        options: ["Pa Ma Ga Ga Re", "Pa Ga Re Sa Ga", "Sa Ga Ma Pa Ma", "Pa ma Ga ga Re"],
+        options: ["Pa Ma Ga Ga Re", "Pa Ga Re Sa Ga", "Sa Ga Ma Pa Ma", "Pa Ga Ma Ga Sa"],
         answer: 3,
         type: "audio_question",
         audioPath: "assets/audio/questions/Level_4_Pa_ma_Ga_ga_re.mp3",
@@ -1032,7 +1032,7 @@ class QuizData {
       ),
       Question(
         prompt: "What notes do you hear?",
-        options: ["Dha Dha Pa Ga Ma", "dha dha Pa ga Ma", "Dha Dha Pa ga ma", "Dha dha Pa ga Ma"],
+        options: ["Dha Dha Pa Ga Ma", "dha dha Pa ga Ma", "Dha Dha Pa ga ma", "dha Pa Dhaa Ma Pa"],
         answer: 3,
         type: "audio_question",
         audioPath: "assets/audio/questions/Level_5_Dha_dha_Pa_ga_Ma.mp3",
@@ -1052,7 +1052,7 @@ class QuizData {
       ),
       Question(
         prompt: "What do you hear?",
-        options: ["dha Pa ga Re Sa re Sa", "Dha Pa Ga Re Sa Re Sa", "dha Pa ga re Sa Sa Sa", "dha Pa ga re Sa Re Sa"],
+        options: ["dha Pa ga re Sa re Sa", "Dha Pa Ga Re Sa Re Sa", "dha Pa ga re Sa Sa Sa", "dha Pa ga re Sa Re Sa"],
         answer: 0,
         type: "audio_question",
         audioPath: "assets/audio/questions/Level_5_dha_Pa_ga_Re_Sa_re_Sa.mp3",
@@ -1091,7 +1091,7 @@ class QuizData {
       ),
       Question(
         prompt: "What notes do you hear?",
-        options: ["Ni ni dha Pa Dha ni Ma", "ni ni dha Pa dha ni ma", "ni ni Dha Pa Dha ni Ma", "Sa'ni Pa Ga Ma Ga Sa"],
+        options: ["ni dha Ni Sa' Dha ni Pa", "ni ni dha Pa dha ni ma", "ni ni Dha Pa Dha ni Ma", "Sa'ni Pa Ga Ma Ga Sa"],
         answer: 0,
         type: "audio_question",
         audioPath: "assets/audio/questions/Level_6_Ni_ni_dha_Pa_Dha_ni_Ma.mp3",
