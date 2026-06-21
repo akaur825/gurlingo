@@ -1,55 +1,46 @@
+// Inside lib/models/user_progress.dart
+
 class UserProgress {
   String username;
   String email;
-  int surLevel;
-  int raagLevel;
   int totalXp;
   int streakDays;
   List<String> completedSurLessons;
   List<String> completedRaagLessons;
+  String preferredScale; // 👈 Add this field
 
   UserProgress({
     required this.username,
-    this.email = '',
-    this.surLevel = 1,
-    this.raagLevel = 1,
+    this.email = "",
     this.totalXp = 0,
     this.streakDays = 0,
     List<String>? completedSurLessons,
     List<String>? completedRaagLessons,
-  })  : completedSurLessons = completedSurLessons ?? [],
-        completedRaagLessons = completedRaagLessons ?? [];
+    this.preferredScale = 'C#', // 👈 Default value
+  })  : this.completedSurLessons = completedSurLessons ?? [],
+        this.completedRaagLessons = completedRaagLessons ?? [];
 
-  // Factory initializer for fresh account profiles
-  factory UserProgress.empty(String username, String email) {
-    return UserProgress(username: username, email: email);
-  }
-
-  // 1. FROM JSON: Converts database map objects into this runtime object
   factory UserProgress.fromJson(Map<String, dynamic> json) {
     return UserProgress(
-      username: json['name'] ?? json['username'] ?? 'User',
+      username: json['username'] ?? 'Guest',
       email: json['email'] ?? '',
-      surLevel: json['surLevel'] ?? 1,
-      raagLevel: json['raagLevel'] ?? 1,
       totalXp: json['totalXp'] ?? 0,
       streakDays: json['streakDays'] ?? 0,
       completedSurLessons: List<String>.from(json['completedSurLessons'] ?? []),
       completedRaagLessons: List<String>.from(json['completedRaagLessons'] ?? []),
+      preferredScale: json['preferredScale'] ?? 'C#', // 👈 Handle from json
     );
   }
 
-  // 2. TO JSON: Packages the current runtime progress values into an exportable map
   Map<String, dynamic> toJson() {
     return {
-      'name': username,
+      'username': username,
       'email': email,
-      'surLevel': surLevel,
-      'raagLevel': raagLevel,
       'totalXp': totalXp,
       'streakDays': streakDays,
       'completedSurLessons': completedSurLessons,
       'completedRaagLessons': completedRaagLessons,
+      'preferredScale': preferredScale, // 👈 Handle to json
     };
   }
 }

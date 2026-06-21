@@ -20,7 +20,7 @@ class AppState {
     }
     currentUser = null;
   }
-
+  
   // 2. FIXED: Uses the model factory method directly to pull historical parameters cleanly
   static void login(Map<String, dynamic> userData) {
     currentUser = UserProgress.fromJson(userData);
@@ -50,6 +50,21 @@ class AppState {
       // Create data map to push back down into storage list using model mappings
       final updatedData = currentUser!.toJson();
       
+      await LocalStorageService.updateAllUsersList(updatedData);
+    }
+  }
+
+  // 5. Persistence Scale Guard: Updates memory and writes directly to file storage
+  static Future<void> updateScale(String scaleKey) async {
+    if (currentUser == null) return;
+
+    // Update memory model reference
+    currentUser!.preferredScale = scaleKey;
+
+    // Find the active user map signature and rewrite it
+    final activeSession = await LocalStorageService.getCurrentUser();
+    if (activeSession != null) {
+      final updatedData = currentUser!.toJson();
       await LocalStorageService.updateAllUsersList(updatedData);
     }
   }

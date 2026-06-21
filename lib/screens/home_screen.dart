@@ -1,18 +1,21 @@
-//shows the home page w/ progress stuff
 import 'package:flutter/material.dart';
 import '../widgets/progress_circle.dart';
 import '../services/app_state.dart';
 import '../models/user_progress.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  @override
   Widget build(BuildContext context) {
     final user = AppState.currentUser ?? UserProgress(username: "Guest");
-
-    final totalLessons =
-        user.completedSurLessons.length + user.completedRaagLessons.length;
+    final totalLessons = user.completedSurLessons.length + user.completedRaagLessons.length;
+    final currentScale = user.preferredScale; // Reading string value direct from memory state
 
     return Scaffold(
       backgroundColor: const Color(0xFFF7F7F7),
@@ -22,7 +25,7 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // 👋 HEADER + LOGOUT
+              // 👋 HEADER + SCALE TOGGLE + LOGOUT
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -32,8 +35,7 @@ class HomeScreen extends StatelessWidget {
                       children: [
                         const Text(
                           "ਵਾਹਿਗੁਰੂ ਜੀ ਕਾ ਖਾਲਸਾ ਵਾਹਿਗੁਰੂ ਜੀ ਕੀ ਫਤਿਹ",
-                          style:
-                              TextStyle(fontSize: 16, color: Color.fromARGB(255, 51, 51, 51)),
+                          style: TextStyle(fontSize: 16, color: Color.fromARGB(255, 51, 51, 51)),
                         ),
                         const SizedBox(height: 6),
                         Text(
@@ -47,6 +49,36 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
 
+                  // 🎵 PITCH / SUR SCALE SELECTOR
+                  Container(
+                    margin: const EdgeInsets.only(right: 8),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: Colors.grey.shade300),
+                    ),
+                    child: ToggleButtons(
+                      isSelected: [currentScale == 'C#', currentScale == 'G#'],
+                      onPressed: (index) async {
+                        String chosenScale = index == 0 ? 'C#' : 'G#';
+                        
+                        // Save choice permanently to local account file storage
+                        await AppState.updateScale(chosenScale);
+                        
+                        // Redraw screen with updated choice values
+                        setState(() {});
+                      },
+                      borderRadius: BorderRadius.circular(12),
+                      constraints: const BoxConstraints(minWidth: 45, minHeight: 36),
+                      selectedColor: Colors.white,
+                      fillColor: Colors.deepOrange, 
+                      children: const [
+                        Text("C#", style: TextStyle(fontWeight: FontWeight.bold)),
+                        Text("G#", style: TextStyle(fontWeight: FontWeight.bold)),
+                      ],
+                    ),
+                  ),
+
                   // 🚪 SIGN OUT BUTTON
                   IconButton(
                     icon: const Icon(Icons.logout),
@@ -55,9 +87,7 @@ class HomeScreen extends StatelessWidget {
                         context: context,
                         builder: (context) => AlertDialog(
                           title: const Text("Sign Out"),
-                          content: const Text(
-                            "Are you sure you want to Sign Out?",
-                          ),
+                          content: const Text("Are you sure you want to Sign Out?"),
                           actions: [
                             TextButton(
                               onPressed: () => Navigator.pop(context),
@@ -65,11 +95,8 @@ class HomeScreen extends StatelessWidget {
                             ),
                             TextButton(
                               onPressed: () async {
-                                // 1. Wipe memory AND local storage
                                 await AppState.logout();
-
                                 if (context.mounted) {
-                                  // 2. Clear the screen stack and go to Welcome
                                   Navigator.of(context, rootNavigator: true).pushNamedAndRemoveUntil(
                                     '/', 
                                     (route) => false,
@@ -133,34 +160,29 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 20),
-
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Column(
                           children: [
                             ProgressCircle(
-                              progress:
-                                  user.completedSurLessons.length / 8,
+                              progress: user.completedSurLessons.length / 8,
                               icon: Icons.mic,
                             ),
                             const SizedBox(height: 10),
                             const Text("Sur"),
-                            Text(
-                                "${user.completedSurLessons.length}/8"),
+                            Text("${user.completedSurLessons.length}/8"),
                           ],
                         ),
                         Column(
                           children: [
                             ProgressCircle(
-                              progress:
-                                  user.completedRaagLessons.length / 8,
+                              progress: user.completedRaagLessons.length / 8,
                               icon: Icons.music_note,
                             ),
                             const SizedBox(height: 10),
                             const Text("Raag"),
-                            Text(
-                                "${user.completedRaagLessons.length}/8"),
+                            Text("${user.completedRaagLessons.length}/8"),
                           ],
                         ),
                       ],
@@ -175,8 +197,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildStatCard(
-      IconData icon, String value, String label, Color color) {
+  Widget _buildStatCard(IconData icon, String value, String label, Color color) {
     return Container(
       width: 100,
       padding: const EdgeInsets.symmetric(vertical: 16),
@@ -190,8 +211,7 @@ class HomeScreen extends StatelessWidget {
           const SizedBox(height: 8),
           Text(
             value,
-            style: const TextStyle(
-                fontSize: 20, fontWeight: FontWeight.bold),
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 4),
           Text(label, style: const TextStyle(color: Colors.grey)),
