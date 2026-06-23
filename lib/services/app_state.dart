@@ -4,16 +4,44 @@ import 'local_storage_service.dart';
 class AppState {
   static UserProgress? currentUser;
 
-  // 1. App Startup Hook: Run this in main.dart before runApp()
+  // 1. App Startup Hook: Tracks dates and calculates user streaks dynamically
   static Future<void> init() async {
     bool loggedIn = await LocalStorageService.isLoggedIn();
     if (loggedIn) {
       final activeSession = await LocalStorageService.getCurrentUser();
       if (activeSession != null) {
-        // Load their actual profile stats from the local list
         final profileData = await LocalStorageService.getUserProgress(activeSession['email']);
         if (profileData != null) {
           currentUser = UserProgress.fromJson(profileData); 
+
+          // 🗓️ STREAK CALCULATION ENGINE 
+          if (profileData.containsKey('lastActiveDate') && profileData['lastActiveDate'] != null) {
+            DateTime lastActive = DateTime.parse(profileData['lastActiveDate']);
+            DateTime now = DateTime.now();
+            
+            // Normalize times to midnight to calculate absolute day intervals accurately
+            DateTime lastActiveMidnight = DateTime(lastActive.year, lastActive.month, lastActive.day);
+            DateTime todayMidnight = DateTime(now.year, now.month, now.day);
+            
+            int differenceInDays = todayMidnight.difference(lastActiveMidnight).inDays;
+
+            if (differenceInDays == 1) {
+              // Consecutive daily login!
+              currentUser!.streakDays += 1;
+            } else if (differenceInDays > 1) {
+              // Broke their streak sequence, reset back to 1
+              currentUser!.streakDays = 1;
+            }
+            // (If difference is 0, they opened it on the same day, so streak stays exactly as it was)
+          } else {
+            currentUser!.streakDays = 1;
+          }
+
+          // Convert changes back to JSON and stamp the last active interaction date as right now
+          final updatedData = currentUser!.toJson();
+          updatedData['lastActiveDate'] = DateTime.now().toIso8601String();
+          await LocalStorageService.updateAllUsersList(updatedData);
+          
           return;
         }
       }
@@ -21,11 +49,10 @@ class AppState {
     currentUser = null;
   }
   
-  // 2. FIXED: Uses the model factory method directly to pull historical parameters cleanly
+  // 2. Login execution mapping bound scopes cleanly
   static void login(Map<String, dynamic> userData) {
     currentUser = UserProgress.fromJson(userData);
     
-    // Explicitly fallback bind the current email scope if missing from registration passes
     if (currentUser!.email.isEmpty && userData.containsKey('email')) {
       currentUser!.email = userData['email'];
     }
@@ -37,34 +64,33 @@ class AppState {
     await LocalStorageService.logout(); 
   }
 
-  // 4. Persistence Safe-guard: Call this when a user finishes a lesson!
+  // 4. Persistence Safe-guard: Updates total XP values and preserves streak fields during updates
   static Future<void> addXpAndSave(int xpGained) async {
     if (currentUser == null) return;
     
-    // Update local variable state
     currentUser!.totalXp += xpGained;
 
-    // Get active email to locate them in local storage
     final activeSession = await LocalStorageService.getCurrentUser();
     if (activeSession != null) {
-      // Create data map to push back down into storage list using model mappings
       final updatedData = currentUser!.toJson();
+      
+      // Preserve tracking fields across database sync intervals
+      updatedData['lastActiveDate'] = DateTime.now().toIso8601String();
       
       await LocalStorageService.updateAllUsersList(updatedData);
     }
   }
 
-  // 5. Persistence Scale Guard: Updates memory and writes directly to file storage
+  // 5. Persistence Scale Guard: Safe-saves tuning preference
   static Future<void> updateScale(String scaleKey) async {
     if (currentUser == null) return;
 
-    // Update memory model reference
     currentUser!.preferredScale = scaleKey;
 
-    // Find the active user map signature and rewrite it
     final activeSession = await LocalStorageService.getCurrentUser();
     if (activeSession != null) {
       final updatedData = currentUser!.toJson();
+      updatedData['lastActiveDate'] = DateTime.now().toIso8601String();
       await LocalStorageService.updateAllUsersList(updatedData);
     }
   }

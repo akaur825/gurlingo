@@ -15,7 +15,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final user = AppState.currentUser ?? UserProgress(username: "Guest");
     final totalLessons = user.completedSurLessons.length + user.completedRaagLessons.length;
-    final currentScale = user.preferredScale; // Reading string value direct from memory state
+    final currentScale = user.preferredScale; 
 
     return Scaffold(
       backgroundColor: const Color(0xFFF7F7F7),
@@ -25,9 +25,10 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // 👋 HEADER + SCALE TOGGLE + LOGOUT
+              // 👋 HEADER + LOGOUT Row
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start, // Aligns elements neatly to the top
                 children: [
                   Expanded(
                     child: Column(
@@ -45,41 +46,37 @@ class _HomeScreenState extends State<HomeScreen> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
+                        const SizedBox(height: 12), // Dynamic spacing before selector
+
+                        // 🎵 PITCH / SUR SCALE SELECTOR (Moved smoothly under Welcome text!)
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(color: Colors.grey.shade300),
+                          ),
+                          child: ToggleButtons(
+                            isSelected: [currentScale == 'C#', currentScale == 'G#'],
+                            onPressed: (index) async {
+                              String chosenScale = index == 0 ? 'C#' : 'G#';
+                              await AppState.updateScale(chosenScale);
+                              setState(() {});
+                            },
+                            borderRadius: BorderRadius.circular(12),
+                            constraints: const BoxConstraints(minWidth: 45, minHeight: 36),
+                            selectedColor: Colors.white,
+                            fillColor: Colors.deepOrange, 
+                            children: const [
+                              Text("C#", style: TextStyle(fontWeight: FontWeight.bold)),
+                              Text("G#", style: TextStyle(fontWeight: FontWeight.bold)),
+                            ],
+                          ),
+                        ),
                       ],
                     ),
                   ),
 
-                  // 🎵 PITCH / SUR SCALE SELECTOR
-                  Container(
-                    margin: const EdgeInsets.only(right: 8),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: Colors.grey.shade300),
-                    ),
-                    child: ToggleButtons(
-                      isSelected: [currentScale == 'C#', currentScale == 'G#'],
-                      onPressed: (index) async {
-                        String chosenScale = index == 0 ? 'C#' : 'G#';
-                        
-                        // Save choice permanently to local account file storage
-                        await AppState.updateScale(chosenScale);
-                        
-                        // Redraw screen with updated choice values
-                        setState(() {});
-                      },
-                      borderRadius: BorderRadius.circular(12),
-                      constraints: const BoxConstraints(minWidth: 45, minHeight: 36),
-                      selectedColor: Colors.white,
-                      fillColor: Colors.deepOrange, 
-                      children: const [
-                        Text("C#", style: TextStyle(fontWeight: FontWeight.bold)),
-                        Text("G#", style: TextStyle(fontWeight: FontWeight.bold)),
-                      ],
-                    ),
-                  ),
-
-                  // 🚪 SIGN OUT BUTTON
+                  // 🚪 SIGN OUT BUTTON (Balanced beautifully in the top-right corner)
                   IconButton(
                     icon: const Icon(Icons.logout),
                     onPressed: () {
@@ -113,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
 
-              const SizedBox(height: 20),
+              const SizedBox(height: 24),
 
               // 📊 STATS CARDS
               Row(

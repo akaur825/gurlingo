@@ -181,10 +181,10 @@ class QuizData {
         answer: 2,
         type: "audio_options",
         optionAudioPaths: [
-          "assets/audio/${scale}Basant_Aroh.mp3",
-          "assets/audio/${scale}Gond_Aroh.mp3",
-          "assets/audio/${scale}Bilaval_Aroh.mp3",
-          "assets/audio/${scale}Maaroo_Aroh.mp3"
+          "assets/audio/${scale}Basant_Aroh.m4a",
+          "assets/audio/${scale}Gond_Aroh.m4a",
+          "assets/audio/${scale}Bilawal_Aroh.m4a",
+          "assets/audio/${scale}Maaroo_Aroh.m4a"
         ],
       ),
     ];
@@ -250,10 +250,10 @@ class QuizData {
         answer: 2,
         type: "audio_options",
         optionAudioPaths: [
-          "assets/audio/${scale}Basant_Avroh.mp3",
-          "assets/audio/${scale}Bilaval_Avroh.mp3",
-          "assets/audio/${scale}Gond_Avroh.mp3",
-          "assets/audio/${scale}Malhaar_Avroh.mp3"
+          "assets/audio/${scale}Basant_Avroh.m4a",
+          "assets/audio/${scale}Bilawal_Avroh.m4a",
+          "assets/audio/${scale}Gond_Avroh.m4a",
+          "assets/audio/${scale}Malhaar_Avroh.m4a"
         ],
       ),
     ];
@@ -319,10 +319,10 @@ class QuizData {
         answer: 2,
         type: "audio_options",
         optionAudioPaths: [
-          "assets/audio/${scale}Bhairo_Aroh.mp3",
-          "assets/audio/${scale}Todi_Aroh.mp3",
-          "assets/audio/${scale}Basant_Aroh.mp3",
-          "assets/audio/${scale}Sarang_Aroh.mp3"
+          "assets/audio/${scale}Bhairo_Aroh.m4a",
+          "assets/audio/${scale}Todi_Aroh.m4a",
+          "assets/audio/${scale}Basant_Aroh.m4a",
+          "assets/audio/${scale}Sarang_Aroh.m4a"
         ],
       ),
     ];
@@ -388,10 +388,10 @@ class QuizData {
         answer: 2,
         type: "audio_options",
         optionAudioPaths: [
-          "assets/audio/${scale}Todi_Avroh.mp3",
-          "assets/audio/${scale}Gond_Avroh.mp3",
-          "assets/audio/${scale}Kalyan_Avroh.mp3",
-          "assets/audio/${scale}Malhaar_Avroh.mp3"
+          "assets/audio/${scale}Todi_Avroh.m4a",
+          "assets/audio/${scale}Gond_Avroh.m4a",
+          "assets/audio/${scale}Kalyan_Avroh.m4a",
+          "assets/audio/${scale}Malhaar_Avroh.m4a"
         ],
       ),
     ];
@@ -452,10 +452,10 @@ class QuizData {
         answer: 3,
         type: "audio_options",
         optionAudioPaths: [
-          "assets/audio/${scale}Shree_Aroh.mp3",
-          "assets/audio/${scale}Sarang_Aroh.mp3",
-          "assets/audio/${scale}Todi_Aroh.mp3",
-          "assets/audio/${scale}Maaroo_Aroh.mp3"
+          "assets/audio/${scale}Shree_Aroh.m4a",
+          "assets/audio/${scale}Sarang_Aroh.m4a",
+          "assets/audio/${scale}Todi_Aroh.m4a",
+          "assets/audio/${scale}Maaroo_Aroh.m4a"
         ],
       ),
     ];
@@ -516,10 +516,10 @@ class QuizData {
         answer: 2,
         type: "audio_options",
         optionAudioPaths: [
-          "assets/audio/${scale}Malhaar_Avroh.mp3",
-          "assets/audio/${scale}Kalyan_Avroh.mp3",
-          "assets/audio/${scale}Shree_Avroh.mp3",
-          "assets/audio/${scale}Bhairo_Avroh.mp3"
+          "assets/audio/${scale}Malhaar_Avroh.m4a",
+          "assets/audio/${scale}Kalyan_Avroh.m4a",
+          "assets/audio/${scale}Shree_Avroh.m4a",
+          "assets/audio/${scale}Bhairo_Avroh.m4a"
         ],
       ),
     ];
@@ -585,10 +585,10 @@ class QuizData {
         answer: 3,
         type: "audio_options",
         optionAudioPaths: [
-          "assets/audio/${scale}Shree_Aroh.mp3",
-          "assets/audio/${scale}Sarang_Aroh.mp3",
-          "assets/audio/${scale}Maaroo_Aroh.mp3",
-          "assets/audio/${scale}Todi_Aroh.mp3"
+          "assets/audio/${scale}Shree_Aroh.m4a",
+          "assets/audio/${scale}Sarang_Aroh.m4a",
+          "assets/audio/${scale}Maaroo_Aroh.m4a",
+          "assets/audio/${scale}Todi_Aroh.m4a"
         ],
       ),
     ];
@@ -649,10 +649,10 @@ class QuizData {
         answer: 0,
         type: "audio_options",
         optionAudioPaths: [
-          "assets/audio/${scale}Sarang_Avroh.mp3",
-          "assets/audio/${scale}Shree_Avroh.mp3",
-          "assets/audio/${scale}Malhaar_Avroh.mp3",
-          "assets/audio/${scale}Basant_Avroh.mp3"
+          "assets/audio/${scale}Sarang_Avroh.m4a",
+          "assets/audio/${scale}Shree_Avroh.m4a",
+          "assets/audio/${scale}Malhaar_Avroh.m4a",
+          "assets/audio/${scale}Basant_Avroh.m4a"
         ],
       ),
     ];
@@ -708,10 +708,10 @@ class QuizData {
         answer: 1,
         type: "audio_options",
         optionAudioPaths: [
-          "assets/audio/${scale}Basant_Aroh.mp3",
-          "assets/audio/${scale}Malhaar_Aroh.mp3",
-          "assets/audio/${scale}Kalyan_Aroh.mp3",
-          "assets/audio/${scale}Maaroo_Aroh.mp3"
+          "assets/audio/${scale}Basant_Aroh.m4a",
+          "assets/audio/${scale}Malhaar_Aroh.m4a",
+          "assets/audio/${scale}Kalyan_Aroh.m4a",
+          "assets/audio/${scale}Maaroo_Aroh.m4a"
         ],
       ),
     ];
@@ -772,10 +772,10 @@ class QuizData {
         answer: 0,
         type: "audio_options",
         optionAudioPaths: [
-          "assets/audio/${scale}Bhairo_Avroh.mp3",
-          "assets/audio/${scale}Kalyan_Avroh.mp3",
-          "assets/audio/${scale}Sarang_Avroh.mp3",
-          "assets/audio/${scale}Todi_Avroh.mp3"
+          "assets/audio/${scale}Bhairo_Avroh.m4a",
+          "assets/audio/${scale}Kalyan_Avroh.m4a",
+          "assets/audio/${scale}Sarang_Avroh.m4a",
+          "assets/audio/${scale}Todi_Avroh.m4a"
         ],
       ),
     ];
@@ -836,7 +836,7 @@ class QuizData {
         options: ["Sa", "Pa", "Ma", "Re"],
         answer: 0,
         type: "audio_question",
-        audioPath: "assets/audio/${scale}Sa.mp3",
+        audioPath: "assets/audio/${scale}Sa.m4a",
       ),
     ];
   }
@@ -860,28 +860,28 @@ class QuizData {
         options: ["Sa", "Pa", "Ga", "Re"],
         answer: 3,
         type: "audio_question",
-        audioPath: "assets/audio/${scale}Re.mp3",
+        audioPath: "assets/audio/${scale}Re.m4a",
       ),
       Question(
         prompt: "What note is this?",
         options: ["re", "Re", "ga", "Ga"],
         answer: 0,
         type: "audio_question",
-        audioPath: "assets/audio/${scale}re_komal.mp3",
+        audioPath: "assets/audio/${scale}re_komal.m4a",
       ),
       Question(
         prompt: "What do you hear?",
         options: ["Sa Re", "Re Sa", "Sa Sa", "Re Re"],
         answer: 0,
         type: "audio_question",
-        audioPath: "assets/audio/${scale}SR_S2_q5.mp3",
+        audioPath: "assets/audio/${scale}SR_S2_q5.m4a",
       ),
       Question(
         prompt: "What do you hear?",
         options: ["Sa Sa Sa Sa", "Re Re Re Re", "Sa Re Sa Re", "Re Sa Re Sa"],
         answer: 2,
         type: "audio_question",
-        audioPath: "assets/audio/${scale}SRSR_S2_q6.mp3",
+        audioPath: "assets/audio/${scale}SRSR_S2_q6.m4a",
       ),
     ];
   }
@@ -905,28 +905,28 @@ class QuizData {
         options: ["re", "Ga", "ga", "Ma"],
         answer: 1,
         type: "audio_question",
-        audioPath: "assets/audio/${scale}Ga.mp3",
+        audioPath: "assets/audio/${scale}Ga.m4a",
       ),
       Question(
         prompt: "What do you hear?",
         options: ["Sa ga re", "Sa Ga Re", "ga Ga Re", "Ga Sa ga"],
         answer: 3,
         type: "audio_question",
-        audioPath: "assets/audio/${scale}GSg_S3_q4.mp3",
+        audioPath: "assets/audio/${scale}GSg_S3_q4.m4a",
       ),
       Question(
         prompt: "What do you hear?",
         options: ["Sa re ga Ga", "Sa Ga Ga Re", "Sa Re Re ga", "Ga Re Sa Sa"],
         answer: 1,
         type: "audio_question",
-        audioPath: "assets/audio/${scale}SGGR_S3_q5.mp3",
+        audioPath: "assets/audio/${scale}SGGR_S3_q5.m4a",
       ),
       Question(
         prompt: "What is the order of notes in this audio?",
         options: ["ga Sa Ga re Sa", "Ga Sa Ga re Sa", "Sa Sa Ga re Sa", "Sa Re Ga Ma"],
         answer: 0,
         type: "audio_question",
-        audioPath: "assets/audio/${scale}gSGrS_S3_q6.mp3",
+        audioPath: "assets/audio/${scale}gSGrS_S3_q6.m4a",
       ),
     ];
   }
@@ -950,28 +950,28 @@ class QuizData {
         options: ["ga", "Ma", "Ga", "Ma"],
         answer: 3,
         type: "audio_question",
-        audioPath: "assets/audio/${scale}Ma.mp3",
+        audioPath: "assets/audio/${scale}Ma.m4a",
       ),
       Question(
         prompt: "What do you hear?",
         options: ["Sa Re Ga Ma", "Re Ga Ma Pa", "Ma Ga Re Sa", "Sa Ma Re Pa"],
         answer: 0,
         type: "audio_question",
-        audioPath: "assets/audio/${scale}SRGM_S4_q4.mp3",
+        audioPath: "assets/audio/${scale}SRGM_S4_q4.m4a",
       ),
       Question(
         prompt: "What do you hear?",
         options: ["Ga Ma ga ma", "Ma ma ga Ma", "ga Ma Ma ga", "ma ga ga ma"],
         answer: 1,
         type: "audio_question",
-        audioPath: "assets/audio/${scale}MmgM_S4_q5.mp3",
+        audioPath: "assets/audio/${scale}MmgM_S4_q5.m4a",
       ),
       Question(
         prompt: "What do you hear?",
         options: ["Sa re ga ma Pa ni", "sa re ma ga ma re", "Sa re Ma Ga re ma", "Ma Ga Re Sa Ga Sa"],
         answer: 2,
         type: "audio_question",
-        audioPath: "assets/audio/${scale}SrMGrm_S4_q6.mp3",
+        audioPath: "assets/audio/${scale}SrMGrm_S4_q6.m4a",
       ),
     ];
   }
@@ -989,7 +989,7 @@ class QuizData {
         options: ["pa", "ma", "Pa", "Sa"],
         answer: 2,
         type: "audio_question",
-        audioPath: "assets/audio/${scale}Pa.mp3",
+        audioPath: "assets/audio/${scale}Pa.m4a",
       ),
       Question(
         prompt: "What type of Sur is Pa?",
@@ -1002,21 +1002,21 @@ class QuizData {
         options: ["Pa Ma Ga Ga Re", "Pa Ga Re Sa Ga", "Sa Ga Ma Pa Ma", "Pa Ga Ma Ga Sa"],
         answer: 3,
         type: "audio_question",
-        audioPath: "assets/audio/${scale}PGMGS_S5_q4.mp3",
+        audioPath: "assets/audio/${scale}PGMGS_S5_q4.m4a",
       ),
       Question(
         prompt: "What is the highest note in this audio?",
         options: ["Pa", "ga", "Sa", "Ni"],
         answer: 0,
         type: "audio_question",
-        audioPath: "assets/audio/${scale}PSMGP_S5_q5.mp3",
+        audioPath: "assets/audio/${scale}PSMGP_S5_q5.m4a",
       ),
       Question(
         prompt: "What note is missing in this sequence? Sa Re __ Pa",
         options: ["Ga", "Re", "Ma", "Pa"],
         answer: 2,
         type: "audio_question",
-        audioPath: "assets/audio/${scale}SRMP_S5_q6.mp3",
+        audioPath: "assets/audio/${scale}SRMP_S5_q6.m4a",
       ),
     ];
   }
@@ -1034,21 +1034,21 @@ class QuizData {
         options: ["Dha", "dha", "ma", "Pa"],
         answer: 1,
         type: "audio_question",
-        audioPath: "assets/audio/${scale}dha_komal.mp3",
+        audioPath: "assets/audio/${scale}dha_komal.m4a",
       ),
       Question(
         prompt: "What notes do you hear?",
         options: ["Dha Dha Pa Ga Ma", "dha dha Pa ga Ma", "Dha Dha Pa ga ma", "dha Pa Dha Ma Pa"],
         answer: 3,
         type: "audio_question",
-        audioPath: "assets/audio/${scale}dPDMP_S6_q3.mp3",
+        audioPath: "assets/audio/${scale}dPDMP_S6_q3.m4a",
       ),
       Question(
         prompt: "How many distinct notes do you hear?",
         options: ["5", "4", "6", "7"],
         answer: 2,
         type: "audio_question",
-        audioPath: "assets/audio/questions/${scale}SRMPDPDMPMGSRGS_S6_q4.mp3",
+        audioPath: "assets/audio/questions/${scale}SRMPDPDMPMGSRGS_S6_q4.m4a",
       ),
       Question(
         prompt: "What are the two types of Surs that Dha has?",
@@ -1061,7 +1061,7 @@ class QuizData {
         options: ["dha Pa ga re Sa re Sa", "Dha Pa Ga Re Sa Re Sa", "dha Pa ga re Sa Sa Sa", "dha Pa ga re Sa Re Sa"],
         answer: 0,
         type: "audio_question",
-        audioPath: "assets/audio/${scale}dPgrSrS_S6_q6.mp3",
+        audioPath: "assets/audio/${scale}dPgrSrS_S6_q6.m4a",
       ),
     ];
   }
@@ -1079,28 +1079,28 @@ class QuizData {
         options: ["Ni", "ni", "Pa", "Ma"],
         answer: 1,
         type: "audio_question",
-        audioPath: "assets/audio/${scale}ni_komal.mp3",
+        audioPath: "assets/audio/${scale}ni_komal.m4a",
       ),
       Question(
         prompt: "Choose the correct order of notes you hear?",
         options: ["Dha Ni Ma Pa", "Dha ni Pa Ma", "Ga Ma Re Sa", "Pa Dha Ni Ma"],
         answer: 1,
         type: "audio_question",
-        audioPath: "assets/audio/${scale}DnPM.mp3",
+        audioPath: "assets/audio/${scale}DnPM.m4a",
       ),
       Question(
         prompt: "How many times do you hear Ni in this sequence?",
         options: ["2", "6", "3", "1"],
         answer: 2,
         type: "audio_question",
-        audioPath: "assets/audio/${scale}NS_high_DNS_high_NDP_S7_q4.mp3",
+        audioPath: "assets/audio/${scale}NS_high_DNS_high_NDP_S7_q4.m4a",
       ),
       Question(
         prompt: "What notes do you hear?",
         options: ["ni dha Ni Sa' Dha ni Pa", "ni ni dha Pa dha ni ma", "ni ni Dha Pa Dha ni Ma", "Sa'ni Pa Ga Ma Ga Sa"],
         answer: 0,
         type: "audio_question",
-        audioPath: "assets/audio/${scale}nDNS_high_DnP_S7_q5.mp3",
+        audioPath: "assets/audio/${scale}nDNS_high_DnP_S7_q5.m4a",
       ),
       Question(
         prompt: "What is the last Shudh Sur of the Saptak?",

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:audioplayers/audioplayers.dart'; // 👈 1. Import the package
 import '../models/question.dart'; 
 
 class QuizWidget extends StatefulWidget {
@@ -16,15 +17,30 @@ class _QuizWidgetState extends State<QuizWidget> {
   int? selected;
   bool showResult = false;
   int score = 0;
+  
+  // 👈 2. Instantiate the player inside the state
+  final AudioPlayer _audioPlayer = AudioPlayer();
 
-  // Helper method to simulate playing audio safely
-  void _playAudio(String path) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text("🔊 Playing audio: $path"),
-        duration: const Duration(seconds: 1),
-      ),
-    );
+  @override
+  void dispose() {
+    _audioPlayer.dispose(); // 👈 3. Clean up the player when leaving the quiz
+    super.dispose();
+  }
+
+  // 👈 4. Updated method to process paths and play real audio
+  void _playAudio(String path) async {
+    try {
+      // If your path is "assets/audio/...m4a", this cleans it to "audio/...m4a"
+      // If your path is already "audio/...m4a", it stays exactly the same.
+      // This completely protects you from the "assets/assets" bug!
+      String cleanPath = path.replaceAll('assets/', '');
+
+      // Stop any audio currently playing before playing the next one
+      await _audioPlayer.stop();
+      await _audioPlayer.play(AssetSource(cleanPath));
+    } catch (e) {
+      debugPrint("Error playing audio: $e");
+    }
   }
 
   void handleCheck() {
@@ -81,7 +97,7 @@ class _QuizWidgetState extends State<QuizWidget> {
                 backgroundColor: brandBlue,
                 child: Icon(Icons.volume_up, color: Colors.white),
               ),
-              title: const Text("Listen to the musical sample", style: TextStyle(fontWeight: FontWeight.w600)),
+              title: const Text("Listen to the audio", style: TextStyle(fontWeight: FontWeight.w600)),
               trailing: ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: brandBlue,

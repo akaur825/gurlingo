@@ -5,7 +5,7 @@ class LocalStorageService {
   static const String allUsersKey = "all_users";
   static const String currentUserKey = "current_user";
 
-  // 1. SAVE NEW USER (Sign Up) - With duplicate check
+  // 1. SAVE NEW USER (Sign Up) - Fixed with structural matching keys
   static Future<bool> saveUser(String name, String email, String password) async {
     final prefs = await SharedPreferences.getInstance();
     List<Map<String, dynamic>> usersList = await getAllUsers();
@@ -16,10 +16,17 @@ class LocalStorageService {
       return false; // Registration failed because user exists
     }
 
+    // Initializes a complete historical data structure with proper JSON keys matching the model
     final newUser = {
-      "name": name,
+      "username": name, 
       "email": email,
       "password": password,
+      "totalXp": 0,
+      "streakDays": 1, 
+      "lastActiveDate": DateTime.now().toIso8601String(), 
+      "preferredScale": "C#",
+      "completedSurLessons": <String>[],
+      "completedRaagLessons": <String>[],
     };
 
     usersList.add(newUser);
@@ -44,18 +51,20 @@ class LocalStorageService {
 
     for (var user in users) {
       if (user['email'] == email && user['password'] == password) {
-        await setCurrentUser(user['name'], user['email']);
+        // Grab the username key safely (fallback to empty if somehow missing)
+        String username = user['username'] ?? user['name'] ?? 'User';
+        await setCurrentUser(username, user['email']);
         return user;
       }
     }
     return null; 
   }
 
-  // 4. SESSION MANAGEMENT
+  // 4. SESSION MANAGEMENT - Aligned key names
   static Future<void> setCurrentUser(String name, String email) async {
     final prefs = await SharedPreferences.getInstance();
     final activeUser = {
-      "name": name,
+      "username": name, 
       "email": email,
       "isLoggedIn": true,
     };
@@ -69,27 +78,26 @@ class LocalStorageService {
     return jsonDecode(data);
   }
 
-// Fetch an existing progress profile map by email/username
-static Future<Map<String, dynamic>?> getUserProgress(String email) async {
-  List<Map<String, dynamic>> users = await getAllUsers();
-  for (var user in users) {
-    if (user['email'] == email) return user;
+  // Fetch an existing progress profile map by email
+  static Future<Map<String, dynamic>?> getUserProgress(String email) async {
+    List<Map<String, dynamic>> users = await getAllUsers();
+    for (var user in users) {
+      if (user['email'] == email) return user;
+    }
+    return null;
   }
-  return null;
-}
 
-// Update the stored list whenever XP or lessons change
-static Future<void> updateAllUsersList(Map<String, dynamic> updatedUser) async {
-  final prefs = await SharedPreferences.getInstance();
-  List<Map<String, dynamic>> usersList = await getAllUsers();
-  
-  // Find index of the user and replace their old data with updated stats
-  int index = usersList.indexWhere((u) => u['email'] == updatedUser['email']);
-  if (index != -1) {
-    usersList[index] = updatedUser;
-    await prefs.setString(allUsersKey, jsonEncode(usersList));
+  // Update the stored list whenever XP, scales, or lessons change
+  static Future<void> updateAllUsersList(Map<String, dynamic> updatedUser) async {
+    final prefs = await SharedPreferences.getInstance();
+    List<Map<String, dynamic>> usersList = await getAllUsers();
+    
+    int index = usersList.indexWhere((u) => u['email'] == updatedUser['email']);
+    if (index != -1) {
+      usersList[index] = updatedUser;
+      await prefs.setString(allUsersKey, jsonEncode(usersList));
+    }
   }
-}
 
   static Future<bool> isLoggedIn() async {
     final user = await getCurrentUser();

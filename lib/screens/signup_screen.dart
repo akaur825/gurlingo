@@ -46,12 +46,13 @@ void handleSignup() async {
       if (success) {
         // FIX: Pass a Map with the dynamic values to match your UserProgress.fromJson requirements
         AppState.login({
-          "name": name,
+          "username": name,
           "email": email,
           "surLevel": 1,
           "raagLevel": 1,
           "totalXp": 0,
-          "streakDays": 0,
+          "streakDays": 1,
+          "preferredScale": "C#",
           "completedSurLessons": <String>[],
           "completedRaagLessons": <String>[],
         }); 

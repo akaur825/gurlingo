@@ -1,16 +1,3 @@
-//When a user clicks on any unlocked lesson from 
-//either the Sur or Raag list, they are sent here. 
-//This screen acts like a slideshow that moves 
-//through 3 phases:
-//    Phase 1 (Video): It shows a video player/placeholder
-//    explaining the musical concept.
-//    Phase 2 (Quiz): It automatically swaps out the video
-//    and loads a quiz related to that specific lesson.
-//    Phase 3 (Finished): It shows a completion screen 
-//    with a green checkmark or red "X", tells you your 
-//    score, updates your user profile with XP points, 
-//    saves it to the phone's memory, and gives you a 
-//    "Back" button to return to the list.
 import '../data/quiz_data.dart';
 import 'package:flutter/material.dart';
 import '../models/question.dart'; 
@@ -37,16 +24,23 @@ class LessonPlayer extends StatefulWidget {
 class _LessonPlayerState extends State<LessonPlayer> {
   LessonPhase phase = LessonPhase.video;
   int score = 0;
+  List<Question> quizQuestions = []; // 👈 1. Create a stable storage list
+
+  @override
+  void initState() {
+    super.initState();
+    // 👈 2. Load the questions ONCE right when the screen opens
+    final String formattedType = widget.lessonType.toLowerCase() == 'sur' ? 'Sur' : 'Raag';
+    final int lessonLevel = int.tryParse(widget.lesson.id.split('-').last) ?? 1;
+    quizQuestions = QuizData.getQuestions(formattedType, lessonLevel);
+  }
 
   void _finishLesson(int finalScore) async {
     setState(() {
       score = finalScore;
     });
 
-    final String formattedType = widget.lessonType.toLowerCase() == 'sur' ? 'Sur' : 'Raag';
-    final int lessonLevel = int.tryParse(widget.lesson.id.split('-').last) ?? 1;
-    final totalQuestions = QuizData.getQuestions(formattedType, lessonLevel).length;
-    
+    final totalQuestions = quizQuestions.length; // 👈 Uses the stable list length
     final passed = totalQuestions > 0 ? finalScore >= (totalQuestions * 0.75).ceil() : true;
 
     final user = AppState.currentUser;
@@ -102,8 +96,6 @@ class _LessonPlayerState extends State<LessonPlayer> {
   }
 
   Widget _buildBody() {
-    final int lessonLevel = int.tryParse(widget.lesson.id.split('-').last) ?? 1;
-
     switch (phase) {
       case LessonPhase.video:
         return VideoPlaceholder(
@@ -116,10 +108,10 @@ class _LessonPlayerState extends State<LessonPlayer> {
         );
 
       case LessonPhase.quiz:
-        final String formattedType = widget.lessonType.toLowerCase() == 'sur' ? 'Sur' : 'Raag';
-        final quizQuestions = QuizData.getQuestions(formattedType, lessonLevel);
-
+        // 👈 3. If no questions loaded in initState, show error safely
         if (quizQuestions.isEmpty) {
+          final String formattedType = widget.lessonType.toLowerCase() == 'sur' ? 'Sur' : 'Raag';
+          final int lessonLevel = int.tryParse(widget.lesson.id.split('-').last) ?? 1;
           return Center(
             child: Text(
               "No quiz questions found for $formattedType Level $lessonLevel!",
@@ -128,6 +120,7 @@ class _LessonPlayerState extends State<LessonPlayer> {
           );
         }
 
+        // 👈 4. Passes the perfectly preserved list down
         return QuizWidget(
           questions: quizQuestions,
           onComplete: (quizPassed, finalScore) { 
@@ -136,13 +129,11 @@ class _LessonPlayerState extends State<LessonPlayer> {
         );
 
       case LessonPhase.finished:
-        final String formattedType = widget.lessonType.toLowerCase() == 'sur' ? 'Sur' : 'Raag';
-        final totalQuestions = QuizData.getQuestions(formattedType, lessonLevel).length;
+        final totalQuestions = quizQuestions.length;
         final passed = totalQuestions > 0 ? score >= (totalQuestions * 0.75).ceil() : true;
         
         return Column(
           children: [
-            // Moves the scoring details neatly to the top/middle area
             const Spacer(),
             Icon(
               passed ? Icons.check_circle : Icons.cancel,
@@ -158,18 +149,17 @@ class _LessonPlayerState extends State<LessonPlayer> {
             Text("You scored $score out of $totalQuestions", style: const TextStyle(fontSize: 16)),
             const Spacer(),
             
-            // 👇 THE UPDATED BUTTON MATCHING YOUR VIDEO PLACEHOLDER STYLING
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
               child: SizedBox(
                 width: double.infinity, 
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF005099), // Brand Blue
-                    foregroundColor: Colors.white,            // White Text
-                    padding: const EdgeInsets.symmetric(vertical: 16), // Thicker button
+                    backgroundColor: const Color(0xFF005099), 
+                    foregroundColor: Colors.white,            
+                    padding: const EdgeInsets.symmetric(vertical: 16), 
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(18), // Smooth corners
+                      borderRadius: BorderRadius.circular(18), 
                     ),
                     elevation: 2,
                   ),
