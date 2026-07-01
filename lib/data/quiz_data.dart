@@ -720,7 +720,7 @@ class QuizData {
   static List<Question> _getRaagLevel11(String scale) {
     return [
       Question(
-        prompt: "What is the Aroh of Raag Bhairo?",
+        prompt: "What is the Aroh of Raag Bhairao?",
         options: [
           "Sa ni Dha Pa Ma Ga Re Sa",
           "Sa Ga Ma Pa Ni Sa'",
@@ -731,43 +731,43 @@ class QuizData {
         type: "text",
       ),
       Question(
-        prompt: "What is the Jaati of Raag Bhairo",
+        prompt: "What is the Jaati of Raag Bhairao",
         options: ["Shaudav-Sampooran", "Audav-Sampooran", "Audav Jaati", "Sampooran Jaati"],
         answer: 3,
         type: "text",
       ),
       Question(
-        prompt: "What is the Thaat of Raag Bhairo?",
+        prompt: "What is the Thaat of Raag Bhairao?",
         options: ["Bilval", "Bhairv", "Kalyan", "Bhairavi"],
         answer: 1,
         type: "text",
       ),
       Question(
-        prompt: "What time is Raag Bhairo sung?",
+        prompt: "What time is Raag Bhairao sung?",
         options: ["6am-9am", "12am-3pm", "10pm-11am", "12pm-3pm"],
         answer: 0,
         type: "text",
       ),
       Question(
-        prompt: "How many Mishrat Raags does Raag Bhairo have?",
+        prompt: "How many Mishrat Raags does Raag Bhairao have?",
         options: ["1", "3", "0", "2"],
         answer: 2,
         type: "text",
       ),
       Question(
-        prompt: "What is the Avroh of Raag Bhairo?",
+        prompt: "What is the Avroh of Raag Bhairao?",
         options: ["Sa' Dha Pa Ga Ma Re Ni. Sa", "Sa' dha Pa Ma re Ga re Sa", "Sa' Ni Pa ga ga Ma Pa Ga re Sa", "Sa' Ni dha dha Pa Ga Ma re re Sa"],
         answer: 3,
         type: "text",
       ),
       Question(
-        prompt: "What is the Vadi of Raag Bhairo?",
+        prompt: "What is the Vadi of Raag Bhairao?",
         options: ["re", "dha", "ma", "ga"],
         answer: 1,
         type: "text",
       ),
       Question(
-        prompt: "Which audio is in Raag Bhairo?",
+        prompt: "Which audio is in Raag Bhairao?",
         options: ["Audio 1", "Audio 2", "Audio 3", "Audio 4"],
         answer: 0,
         type: "audio_options",
