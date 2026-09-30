@@ -67,8 +67,14 @@ class _HomeScreenState extends State<HomeScreen> {
                             selectedColor: Colors.white,
                             fillColor: Colors.deepOrange, 
                             children: const [
-                              Text("C#", style: TextStyle(fontWeight: FontWeight.bold)),
-                              Text("G#", style: TextStyle(fontWeight: FontWeight.bold)),
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 8.0),
+                                child: Text("Male Scale (C#)", style: TextStyle(fontWeight: FontWeight.bold)),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 8.0),
+                                child:Text("Female Scale (G#)", style: TextStyle(fontWeight: FontWeight.bold)),
+                              ),
                             ],
                           ),
                         ),

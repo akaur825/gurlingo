@@ -25,36 +25,65 @@ class _SurLessonsScreenState extends State<SurLessonsScreen> {
 
     return Scaffold(
       backgroundColor: const Color(0xFFF7F7F7),
-      appBar: AppBar(
-        title: const Text(
-          "Sur Recognition",
-          style: TextStyle(
-            fontSize: 26,
-            fontWeight: FontWeight.bold,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          physics: const ClampingScrollPhysics(),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // --- Section 1: Sur Recognition ---
+              _buildSectionHeader("Shudh Sur Recognition"),
+              const SizedBox(height: 16),
+              ...List.generate(surLessons.length, (index) {
+                final lesson = surLessons[index];
+
+                bool completed = user.completedSurLessons.contains(lesson.id);
+                // Unlocks sequentially for the first list
+                bool unlocked = index <= user.completedSurLessons.length;
+
+                return _lessonCard(
+                  context: context,
+                  lesson: lesson,
+                  completed: completed,
+                  unlocked: unlocked,
+                );
+              }),
+
+              const SizedBox(height: 32), // Clear spacing between sections
+
+              // --- Section 2: Vakrit Sur Recognition ---
+              _buildSectionHeader("Vakrit Sur Recognition"),
+              const SizedBox(height: 16),
+              ...List.generate(vakritSurLessons.length, (index) {
+                final lesson = vakritSurLessons[index];
+
+                bool completed = user.completedSurLessons.contains(lesson.id);
+                // Unlocks sequentially only AFTER all standard surLessons are completed
+                bool unlocked = (surLessons.length + index) <= user.completedSurLessons.length;
+
+                return _lessonCard(
+                  context: context,
+                  lesson: lesson,
+                  completed: completed,
+                  unlocked: unlocked,
+                );
+              }),
+            ],
           ),
         ),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        automaticallyImplyLeading: false,
       ),
-      body: ListView.builder(
-        physics: const ClampingScrollPhysics(),
-        padding: const EdgeInsets.all(16),
-        itemCount: surLessons.length,
-        itemBuilder: (context, index) {
-          final lesson = surLessons[index];
+    );
+  }
 
-          bool completed = user.completedSurLessons.contains(lesson.id);
-          bool unlocked = index <= user.completedSurLessons.length;
-
-          return _lessonCard(
-            context: context,
-            lesson: lesson,
-            completed: completed,
-            unlocked: unlocked,
-            index: index + 1,
-          );
-        },
+  // Section Header Helper to keep UI text clean and uniform
+  Widget _buildSectionHeader(String title) {
+    return Text(
+      title,
+      style: const TextStyle(
+        fontSize: 26,
+        fontWeight: FontWeight.bold,
+        color: Colors.black,
       ),
     );
   }
@@ -64,7 +93,6 @@ class _SurLessonsScreenState extends State<SurLessonsScreen> {
     required Lesson lesson,
     required bool completed,
     required bool unlocked,
-    required int index,
   }) {
     Color bgColor;
     IconData icon;
@@ -92,7 +120,7 @@ class _SurLessonsScreenState extends State<SurLessonsScreen> {
                   ),
                 ),
               ).then((_) {
-                // This triggers when you exit the lesson/quiz and return here!
+                // Refresh progress state when returning to this screen
                 setState(() {});
               });
             }

@@ -3,51 +3,89 @@ import '../models/question.dart';
 final List<Lesson> surLessons = [
   Lesson(
     id: 'sur-1',
-    title: '1st Sur - Sa',
+    title: '1st Shudh Sur - Sa',
     description: 'Introduction to the 12 Surs and Sharaj',
     videoDescription: 'Learn the basics of Surs .', // DO NOT MISS THIS
     questions: [], 
   ),
   Lesson(
     id: 'sur-2',
-    title: '2nd Sur - Re',
+    title: '2nd Shudh Sur - Re',
     description: 'Adding Rishab',
     videoDescription: 'Learn how to incorporate Re', // DO NOT MISS THIS
     questions: [], 
   ),
   Lesson(
     id: 'sur-3',
-    title: '3rd Sur - Ga',
+    title: '3rd Shudh Sur - Ga',
     description: 'Adding Gandhar',
     videoDescription: 'Learn how to incorporate Ga', // DO NOT MISS THIS
     questions: [], 
   ),
   Lesson(
     id: 'sur-4',
-    title: '4th Sur - Ma',
+    title: '4th Shudh Sur - Ma',
     description: 'Adding Madhyam',
     videoDescription: 'Learn how to incorporate Ma', // DO NOT MISS THIS
     questions: [], 
   ),
   Lesson(
     id: 'sur-5',
-    title: '5th Sur - Pa',
+    title: '5th Shudh Sur - Pa',
     description: 'Adding Pancham',
     videoDescription: 'Learn how to incorporate Pa', // DO NOT MISS THIS
     questions: [], 
   ),
   Lesson(
     id: 'sur-6',
-    title: '6th Sur - Dha',
+    title: '6th Shudh Sur - Dha',
     description: 'Adding Dhaivat',
     videoDescription: 'Learn how to incorporate Dha', // DO NOT MISS THIS
     questions: [], 
   ),
   Lesson(
     id: 'sur-7',
-    title: '7th Sur - Ni',
+    title: '7th Shudh Sur - Ni',
     description: 'Adding Nishad',
     videoDescription: 'Learn how to incorporate Ni', // DO NOT MISS THIS
+    questions: [], 
+  ),
+];
+
+final List<Lesson> vakritSurLessons = [
+  Lesson(
+    id: 'vakrit-1',
+    title: '1st Vakrit Sur - Komal Re',
+    description: 'Adding Komal Rishab',
+    videoDescription: 'Learn how to incorporate Komal Re.',
+    questions: [], 
+  ),
+  Lesson(
+    id: 'vakrit-2',
+    title: '2nd Vakrit Sur - Komal Ga',
+    description: 'Adding Komal Gandhar',
+    videoDescription: 'Learn how to incorporate Komal Ga.',
+    questions: [], 
+  ),
+  Lesson(
+    id: 'vakrit-3',
+    title: '3rd Vakrit Sur - Teevra Ma',
+    description: 'Adding Teevra Madhyam',
+    videoDescription: 'Learn how to incorporate Teevra Ma.',
+    questions: [], 
+  ),
+  Lesson(
+    id: 'vakrit-4',
+    title: '4th Vakrit Sur - Komal Dha',
+    description: 'Adding Komal Dhaivat',
+    videoDescription: 'Learn how to incorporate Komal Dha.',
+    questions: [], 
+  ),
+  Lesson(
+    id: 'vakrit-5',
+    title: '5th Vakrit Sur - Komal Ni',
+    description: 'Adding Komal Nishad',
+    videoDescription: 'Learn how to incorporate Komal Ni.',
     questions: [], 
   ),
 ];
