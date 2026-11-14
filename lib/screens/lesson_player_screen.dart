@@ -24,6 +24,7 @@ class LessonPlayer extends StatefulWidget {
 class _LessonPlayerState extends State<LessonPlayer> {
   LessonPhase phase = LessonPhase.video;
   int score = 0;
+  bool passed = false; // set once when the quiz ends (one pass mark: AppState.passMark)
   List<Question> quizQuestions = []; // 👈 1. Create a stable storage list
 
   @override
@@ -35,40 +36,34 @@ class _LessonPlayerState extends State<LessonPlayer> {
     quizQuestions = QuizData.getQuestions(formattedType, lessonLevel);
   }
 
-  void _finishLesson(int finalScore) async {
-    setState(() {
-      score = finalScore;
-    });
-
-    final totalQuestions = quizQuestions.length; // 👈 Uses the stable list length
-    final passed = totalQuestions > 0 ? finalScore >= (totalQuestions * 0.75).ceil() : true;
-
+  void _finishLesson(bool quizPassed, int finalScore) async {
     final user = AppState.currentUser;
-    
-    if (user != null && passed) {
+    int xpGained = 0;
+
+    if (user != null && quizPassed) {
       final completedList = widget.lessonType == 'sur'
           ? user.completedSurLessons
           : user.completedRaagLessons;
 
       if (!completedList.contains(widget.lesson.id)) {
         completedList.add(widget.lesson.id);
+        xpGained = finalScore * 10; // XP only the first time a lesson is passed
       }
-
-      if (widget.lessonType == 'sur') {
-        user.completedSurLessons = completedList;
-      } else {
-        user.completedRaagLessons = completedList;
-      }
-
-      int xpGained = finalScore * 10;
-      await AppState.addXpAndSave(xpGained);
     }
 
-    if (mounted) {
-      setState(() {
-        phase = LessonPhase.finished;
-      });
+    // Save XP, streak and completed lessons. A saving problem must never trap the user here.
+    try {
+      await AppState.finishQuiz(xpGained: xpGained);
+    } catch (e) {
+      debugPrint('Could not save progress: $e');
     }
+
+    if (!mounted) return;
+    setState(() {
+      score = finalScore;
+      passed = quizPassed;
+      phase = LessonPhase.finished;
+    });
   }
 
   void _goBack() {
@@ -123,15 +118,14 @@ class _LessonPlayerState extends State<LessonPlayer> {
         // 👈 4. Passes the perfectly preserved list down
         return QuizWidget(
           questions: quizQuestions,
-          onComplete: (quizPassed, finalScore) { 
-            _finishLesson(finalScore);
+          onComplete: (quizPassed, finalScore) {
+            _finishLesson(quizPassed, finalScore);
           },
         );
 
       case LessonPhase.finished:
         final totalQuestions = quizQuestions.length;
-        final passed = totalQuestions > 0 ? score >= (totalQuestions * 0.75).ceil() : true;
-        
+
         return Column(
           children: [
             const Spacer(),

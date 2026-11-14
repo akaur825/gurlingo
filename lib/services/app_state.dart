@@ -1,97 +1,124 @@
+// lib/services/app_state.dart
 import '../models/user_progress.dart';
 import 'local_storage_service.dart';
 
 class AppState {
   static UserProgress? currentUser;
 
-  // 1. App Startup Hook: Tracks dates and calculates user streaks dynamically
+  // One pass mark for the whole app: 70% (7 out of 10).
+  static const double passMark = 0.7;
+
+  static bool isPassing(int score, int totalQuestions) {
+    if (totalQuestions <= 0) return true;
+    return score >= (totalQuestions * passMark).ceil();
+  }
+
+  /// Called once when the app starts (main.dart). Restores the saved session if there is one.
   static Future<void> init() async {
-    bool loggedIn = await LocalStorageService.isLoggedIn();
-    if (loggedIn) {
-      final activeSession = await LocalStorageService.getCurrentUser();
-      if (activeSession != null) {
-        final profileData = await LocalStorageService.getUserProgress(activeSession['email']);
-        if (profileData != null) {
-          currentUser = UserProgress.fromJson(profileData); 
-
-          // 🗓️ STREAK CALCULATION ENGINE 
-          if (profileData.containsKey('lastActiveDate') && profileData['lastActiveDate'] != null) {
-            DateTime lastActive = DateTime.parse(profileData['lastActiveDate']);
-            DateTime now = DateTime.now();
-            
-            // Normalize times to midnight to calculate absolute day intervals accurately
-            DateTime lastActiveMidnight = DateTime(lastActive.year, lastActive.month, lastActive.day);
-            DateTime todayMidnight = DateTime(now.year, now.month, now.day);
-            
-            int differenceInDays = todayMidnight.difference(lastActiveMidnight).inDays;
-
-            if (differenceInDays == 1) {
-              // Consecutive daily login!
-              currentUser!.streakDays += 1;
-            } else if (differenceInDays > 1) {
-              // Broke their streak sequence, reset back to 1
-              currentUser!.streakDays = 1;
-            }
-            // (If difference is 0, they opened it on the same day, so streak stays exactly as it was)
-          } else {
-            currentUser!.streakDays = 1;
-          }
-
-          // Convert changes back to JSON and stamp the last active interaction date as right now
-          final updatedData = currentUser!.toJson();
-          updatedData['lastActiveDate'] = DateTime.now().toIso8601String();
-          await LocalStorageService.updateAllUsersList(updatedData);
-          
-          return;
-        }
-      }
-    }
     currentUser = null;
-  }
-  
-  // 2. Login execution mapping bound scopes cleanly
-  static void login(Map<String, dynamic> userData) {
-    currentUser = UserProgress.fromJson(userData);
-    
-    if (currentUser!.email.isEmpty && userData.containsKey('email')) {
-      currentUser!.email = userData['email'];
+    try {
+      if (!await LocalStorageService.isLoggedIn()) return;
+
+      final session = await LocalStorageService.getCurrentUser();
+      final email = session?['email'];
+      if (email is! String) {
+        await LocalStorageService.logout();
+        return;
+      }
+
+      final profile = await LocalStorageService.getUserProgress(email);
+      if (profile == null) {
+        await LocalStorageService.logout(); // saved session points to a missing account
+        return;
+      }
+
+      currentUser = UserProgress.fromJson(profile);
+      _expireStreakIfBroken();
+    } catch (_) {
+      currentUser = null;
     }
   }
 
-  // 3. Complete logout execution
+  // Login: keeps the user's data in memory for the screens to read
+  static void login(Map<String, dynamic> userData) {
+    final user = UserProgress.fromJson(userData);
+    user.email = LocalStorageService.normalizeEmail(user.email);
+    currentUser = user;
+    _expireStreakIfBroken();
+  }
+
   static Future<void> logout() async {
     currentUser = null;
-    await LocalStorageService.logout(); 
+    await LocalStorageService.logout();
   }
 
-  // 4. Persistence Safe-guard: Updates total XP values and preserves streak fields during updates
+  // ---------- Streak ----------
+
+  /// Whole calendar days from [fromKey] ("yyyy-MM-dd") to [to]. Uses UTC dates so
+  /// daylight-saving changes can't produce 23- or 25-hour "days".
+  static int _daysBetween(String fromKey, DateTime to) {
+    final from = DateTime.tryParse(fromKey);
+    if (from == null) return 0;
+    final a = DateTime.utc(from.year, from.month, from.day);
+    final b = DateTime.utc(to.year, to.month, to.day);
+    return b.difference(a).inDays;
+  }
+
+  /// If a whole day was missed, the streak shows 0 until the next quiz is finished.
+  static void _expireStreakIfBroken() {
+    final user = currentUser;
+    if (user == null || user.lastActiveDate == null) return;
+    if (_daysBetween(user.lastActiveDate!, DateTime.now()) > 1) {
+      user.streakDays = 0;
+    }
+  }
+
+  /// Call this when the user finishes a quiz. Adds XP, updates the streak (at most one
+  /// increase per calendar day), and saves everything in one write.
+  static Future<void> finishQuiz({int xpGained = 0}) async {
+    final user = currentUser;
+    if (user == null) return;
+
+    user.totalXp += xpGained;
+
+    final now = DateTime.now();
+    final last = user.lastActiveDate;
+    if (last == null) {
+      user.streakDays = 1;
+    } else {
+      final gap = _daysBetween(last, now);
+      if (gap == 1) {
+        user.streakDays += 1; // consecutive day
+      } else if (gap > 1) {
+        user.streakDays = 1; // missed at least one day
+      } else if (user.streakDays < 1) {
+        user.streakDays = 1; // same day, make sure it shows at least 1
+      }
+    }
+    user.lastActiveDate = dateKey(now);
+
+    await _persist();
+  }
+
+  // ---------- Saving ----------
+
+  static Future<void> _persist() async {
+    final user = currentUser;
+    if (user == null) return;
+    await LocalStorageService.updateAllUsersList(user.toJson());
+  }
+
+  // Kept so older calls still work: adds XP and saves.
   static Future<void> addXpAndSave(int xpGained) async {
     if (currentUser == null) return;
-    
     currentUser!.totalXp += xpGained;
-
-    final activeSession = await LocalStorageService.getCurrentUser();
-    if (activeSession != null) {
-      final updatedData = currentUser!.toJson();
-      
-      // Preserve tracking fields across database sync intervals
-      updatedData['lastActiveDate'] = DateTime.now().toIso8601String();
-      
-      await LocalStorageService.updateAllUsersList(updatedData);
-    }
+    await _persist();
   }
 
-  // 5. Persistence Scale Guard: Safe-saves tuning preference
+  // Saves the chosen scale ("C#" or "G#")
   static Future<void> updateScale(String scaleKey) async {
     if (currentUser == null) return;
-
     currentUser!.preferredScale = scaleKey;
-
-    final activeSession = await LocalStorageService.getCurrentUser();
-    if (activeSession != null) {
-      final updatedData = currentUser!.toJson();
-      updatedData['lastActiveDate'] = DateTime.now().toIso8601String();
-      await LocalStorageService.updateAllUsersList(updatedData);
-    }
+    await _persist();
   }
 }

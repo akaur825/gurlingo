@@ -101,71 +101,71 @@ final List<Lesson> raagLessons = [
   Lesson(
     id: 'raag-2',
     title: 'Raag Bilaval',
-    description: 'Introduction to the concept of Raag',
-    videoDescription: 'Learn the basics of Raag structure.', // DO NOT MISS THIS
-    questions: [], 
-  ),
-  Lesson(
-    id: 'raag-3',
-    title: 'Raag Gond',
-    description: 'Introduction to the concept of Raag',
-    videoDescription: 'Learn the basics of Raag structure.', // DO NOT MISS THIS
-    questions: [], 
+    description: 'Introduction to Raag Bilaval',
+    videoDescription: 'Learn the basics of Raag structure.',
+    questions: [],
   ),
   Lesson(
     id: 'raag-4',
     title: 'Raag Basant',
-    description: 'Introduction to the concept of Raag',
-    videoDescription: 'Learn the basics of Raag structure.', // DO NOT MISS THIS
-    questions: [], 
+    description: 'Introduction to Raag Basant',
+    videoDescription: 'Learn the basics of Raag structure.',
+    questions: [],
   ),
   Lesson(
     id: 'raag-5',
     title: 'Raag Kalyan',
-    description: 'Introduction to the concept of Raag',
-    videoDescription: 'Learn the basics of Raag structure.', // DO NOT MISS THIS
-    questions: [], 
-  ),
-  Lesson(
-    id: 'raag-6',
-    title: 'Raag Maru',
-    description: 'Introduction to the concept of Raag',
-    videoDescription: 'Learn the basics of Raag structure.', // DO NOT MISS THIS
-    questions: [], 
-  ),
-  Lesson(
-    id: 'raag-7',
-    title: 'Raag Shree',
-    description: 'Introduction to the concept of Raag',
-    videoDescription: 'Learn the basics of Raag structure.', // DO NOT MISS THIS
-    questions: [], 
-  ),
-  Lesson(
-    id: 'raag-8',
-    title: 'Raag Todi',
-    description: 'Introduction to the concept of Raag',
-    videoDescription: 'Learn the basics of Raag structure.', // DO NOT MISS THIS
-    questions: [], 
-  ),
-  Lesson(
-    id: 'raag-9',
-    title: 'Raag Sarang',
-    description: 'Introduction to the concept of Raag',
-    videoDescription: 'Learn the basics of Raag structure.', // DO NOT MISS THIS
-    questions: [], 
-  ),
-  Lesson(
-    id: 'raag-10',
-    title: 'Raag Malhaar',
-    description: 'Introduction to the concept of Raag',
-    videoDescription: 'Learn the basics of Raag structure.', // DO NOT MISS THIS
-    questions: [], 
+    description: 'Introduction to Raag Kalyan',
+    videoDescription: 'Learn the basics of Raag structure.',
+    questions: [],
   ),
   Lesson(
     id: 'raag-11',
     title: 'Raag Bhairo',
-    description: 'Introduction to the concept of Raag',
-    videoDescription: 'Learn the basics of Raag structure.', // DO NOT MISS THIS
-    questions: [], 
+    description: 'Introduction to Raag Bhairo',
+    videoDescription: 'Learn the basics of Raag structure.',
+    questions: [],
+  ),
+  Lesson(
+    id: 'raag-8',
+    title: 'Raag Todi',
+    description: 'Introduction to Raag Todi',
+    videoDescription: 'Learn the basics of Raag structure.',
+    questions: [],
+  ),
+  Lesson(
+    id: 'raag-9',
+    title: 'Raag Sarang',
+    description: 'Introduction to Raag Sarang',
+    videoDescription: 'Learn the basics of Raag structure.',
+    questions: [],
+  ),
+  Lesson(
+    id: 'raag-3',
+    title: 'Raag Gond',
+    description: 'Introduction to Raag Gond',
+    videoDescription: 'Learn the basics of Raag structure.',
+    questions: [],
+  ),
+  Lesson(
+    id: 'raag-10',
+    title: 'Raag Malhar',
+    description: 'Introduction to Raag Malhar',
+    videoDescription: 'Learn the basics of Raag structure.',
+    questions: [],
+  ),
+  Lesson(
+    id: 'raag-7',
+    title: 'Sri Raag',
+    description: 'Introduction to Sri Raag',
+    videoDescription: 'Learn the basics of Raag structure.',
+    questions: [],
+  ),
+  Lesson(
+    id: 'raag-6',
+    title: 'Raag Maru',
+    description: 'Introduction to Raag Maru',
+    videoDescription: 'Learn the basics of Raag structure.',
+    questions: [],
   ),
 ];

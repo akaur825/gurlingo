@@ -14,6 +14,7 @@ dependencies:
   google_fonts: ^6.1.0
   cupertino_icons: ^1.0.8
   audioplayers: ^5.2.1 # Added the correct, null-safe audio package
+  crypto: ^3.0.8
 
 dev_dependencies:
   flutter_test:

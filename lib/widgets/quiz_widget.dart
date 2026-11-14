@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart'; // 👈 1. Import the package
-import '../models/question.dart'; 
+import '../models/question.dart';
+import '../services/app_state.dart';
 
 class QuizWidget extends StatefulWidget {
   final List<Question> questions; 
@@ -52,7 +53,7 @@ class _QuizWidgetState extends State<QuizWidget> {
 
   void handleNext() {
     if (currentQ + 1 >= widget.questions.length) {
-      widget.onComplete(score >= (widget.questions.length * 0.7).ceil(), score);
+      widget.onComplete(AppState.isPassing(score, widget.questions.length), score);
       return;
     }
     setState(() {

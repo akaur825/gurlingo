@@ -9,17 +9,3 @@ UserProgress user = UserProgress(
   completedSurLessons: ['1', '2'],
   completedRaagLessons: ['1'],
 );
-
-// final List<Lesson> surLessons = [
-//   Lesson(id: '1', title: 'Sa — The Foundation'),
-//   Lesson(id: '2', title: 'Sa & Re — First Steps'),
-//   Lesson(id: '3', title: 'Sa Re Ga — Building Up'),
-//   Lesson(id: '4', title: 'Adding Ma — The Middle'),
-// ];
-
-// final List<Lesson> raagLessons = [
-//   Lesson(id: '1', title: 'What is a Raag?'),
-//   Lesson(id: '2', title: 'Raag Components'),
-//   Lesson(id: '3', title: 'Raag Sri'),
-//   Lesson(id: '4', title: 'Raag Aasa'),
-// ];

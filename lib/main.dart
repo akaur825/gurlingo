@@ -10,8 +10,8 @@ void main() async {
   // 2. Add this line - it's the "bridge" between Flutter and the phone
   WidgetsFlutterBinding.ensureInitialized();
 
-  // 3. Await the logout so it finishes before the app starts
-  await AppState.logout();
+  // 3. Restore the saved session (if any) before the app starts
+  await AppState.init();
 
   runApp(const MyApp());
 }
