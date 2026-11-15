@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../widgets/progress_circle.dart';
 import '../services/app_state.dart';
 import '../models/user_progress.dart';
+import '../data/lesson_data.dart';
+import '../theme/app_theme.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -14,21 +16,28 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final user = AppState.currentUser ?? UserProgress(username: "Guest");
-    final totalLessons = user.completedSurLessons.length + user.completedRaagLessons.length;
-    final currentScale = user.preferredScale; 
+    // Curriculum sizes come from the lesson lists: 12 Sur (7 Shudh + 5 Vakrit), 11 Raag.
+    final surIds = {for (final l in [...surLessons, ...vakritSurLessons]) l.id};
+    final raagIds = {for (final l in raagLessons) l.id};
+    final surTotal = surIds.length;
+    final raagTotal = raagIds.length;
+    final surDone = user.completedSurLessons.where(surIds.contains).toSet().length;
+    final raagDone = user.completedRaagLessons.where(raagIds.contains).toSet().length;
+    final totalLessons = surDone + raagDone;
+    final currentScale = user.preferredScale;
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF7F7F7),
+      backgroundColor: Colors.transparent,
       body: SafeArea(
-        child: Padding(
+        child: SingleChildScrollView(
+          physics: const ClampingScrollPhysics(),
           padding: const EdgeInsets.all(16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // 👋 HEADER + LOGOUT Row
+              // Header + sign out
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start, // Aligns elements neatly to the top
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(
                     child: Column(
@@ -36,158 +45,70 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         const Text(
                           "ਵਾਹਿਗੁਰੂ ਜੀ ਕਾ ਖਾਲਸਾ ਵਾਹਿਗੁਰੂ ਜੀ ਕੀ ਫਤਿਹ",
-                          style: TextStyle(fontSize: 16, color: Color.fromARGB(255, 51, 51, 51)),
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: AppColors.wood,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                         const SizedBox(height: 6),
                         Text(
                           "Welcome, ${user.username}",
-                          style: const TextStyle(
-                            fontSize: 26,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 12), // Dynamic spacing before selector
-
-                        // 🎵 PITCH / SUR SCALE SELECTOR (Moved smoothly under Welcome text!)
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: Colors.grey.shade300),
-                          ),
-                          child: ToggleButtons(
-                            isSelected: [currentScale == 'C#', currentScale == 'G#'],
-                            onPressed: (index) async {
-                              String chosenScale = index == 0 ? 'C#' : 'G#';
-                              await AppState.updateScale(chosenScale);
-                              setState(() {});
-                            },
-                            borderRadius: BorderRadius.circular(12),
-                            constraints: const BoxConstraints(minWidth: 45, minHeight: 36),
-                            selectedColor: Colors.white,
-                            fillColor: Colors.deepOrange, 
-                            children: const [
-                              Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 8.0),
-                                child: Text("Male Scale (C#)", style: TextStyle(fontWeight: FontWeight.bold)),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 8.0),
-                                child:Text("Female Scale (G#)", style: TextStyle(fontWeight: FontWeight.bold)),
-                              ),
-                            ],
-                          ),
+                          style: AppTheme.heading(size: 28, color: AppColors.blueDeep),
                         ),
                       ],
                     ),
                   ),
-
-                  // 🚪 SIGN OUT BUTTON (Balanced beautifully in the top-right corner)
                   IconButton(
-                    icon: const Icon(Icons.logout),
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (context) => AlertDialog(
-                          title: const Text("Sign Out"),
-                          content: const Text("Are you sure you want to Sign Out?"),
-                          actions: [
-                            TextButton(
-                              onPressed: () => Navigator.pop(context),
-                              child: const Text("Cancel"),
-                            ),
-                            TextButton(
-                              onPressed: () async {
-                                await AppState.logout();
-                                if (context.mounted) {
-                                  Navigator.of(context, rootNavigator: true).pushNamedAndRemoveUntil(
-                                    '/', 
-                                    (route) => false,
-                                  );
-                                }
-                              },
-                              child: const Text("Sign Out", style: TextStyle(color: Colors.red)),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
+                    tooltip: 'Sign out',
+                    icon: const Icon(Icons.logout, color: AppColors.wood),
+                    onPressed: _confirmSignOut,
                   ),
                 ],
               ),
 
-              const SizedBox(height: 24),
+              const SizedBox(height: 16),
+              _scaleSelector(currentScale),
+              const SizedBox(height: 20),
 
-              // 📊 STATS CARDS
+              // Stats
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  _buildStatCard(
-                    Icons.local_fire_department,
-                    user.streakDays.toString(),
-                    "Day Streak",
-                    Colors.orange,
+                  Expanded(
+                    child: _statCard(Icons.local_fire_department,
+                        user.streakDays.toString(), "Day Streak", AppColors.saffron),
                   ),
-                  _buildStatCard(
-                    Icons.flash_on,
-                    user.totalXp.toString(),
-                    "Total XP",
-                    Colors.amber,
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: _statCard(Icons.flash_on, user.totalXp.toString(),
+                        "Total XP", AppColors.plum),
                   ),
-                  _buildStatCard(
-                    Icons.emoji_events,
-                    totalLessons.toString(),
-                    "Lessons",
-                    Colors.blue,
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: _statCard(Icons.emoji_events, totalLessons.toString(),
+                        "Lessons", AppColors.blue),
                   ),
                 ],
               ),
 
-              const SizedBox(height: 24),
+              const SizedBox(height: 20),
 
-              // 📈 PROGRESS
+              // Progress
               Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                ),
+                width: double.infinity,
+                padding: const EdgeInsets.all(18),
+                decoration: AppTheme.card(),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      "Your Progress",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                    Text("Your Progress", style: AppTheme.heading(size: 20)),
                     const SizedBox(height: 20),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        Column(
-                          children: [
-                            ProgressCircle(
-                              progress: user.completedSurLessons.length / 8,
-                              icon: Icons.mic,
-                            ),
-                            const SizedBox(height: 10),
-                            const Text("Sur"),
-                            Text("${user.completedSurLessons.length}/8"),
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            ProgressCircle(
-                              progress: user.completedRaagLessons.length / 8,
-                              icon: Icons.music_note,
-                            ),
-                            const SizedBox(height: 10),
-                            const Text("Raag"),
-                            Text("${user.completedRaagLessons.length}/8"),
-                          ],
-                        ),
+                        _progressColumn("Sur", surDone, surTotal, Icons.mic),
+                        _progressColumn(
+                            "Raag", raagDone, raagTotal, Icons.music_note),
                       ],
                     ),
                   ],
@@ -200,24 +121,110 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildStatCard(IconData icon, String value, String label, Color color) {
-    return Container(
-      width: 100,
-      padding: const EdgeInsets.symmetric(vertical: 16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(18),
+  void _confirmSignOut() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("Sign Out"),
+        content: const Text("Are you sure you want to Sign Out?"),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text("Cancel"),
+          ),
+          TextButton(
+            onPressed: () async {
+              await AppState.logout();
+              if (context.mounted) {
+                Navigator.of(context, rootNavigator: true).pushNamedAndRemoveUntil(
+                  '/',
+                  (route) => false,
+                );
+              }
+            },
+            child: const Text("Sign Out", style: TextStyle(color: AppColors.bad)),
+          ),
+        ],
       ),
+    );
+  }
+
+  // Two equal halves, so the labels never overflow on a narrow phone.
+  Widget _scaleSelector(String currentScale) {
+    Widget option(String scale, String label) {
+      final selected = currentScale == scale;
+      return Expanded(
+        child: GestureDetector(
+          onTap: () async {
+            await AppState.updateScale(scale);
+            if (mounted) setState(() {});
+          },
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 150),
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+            decoration: BoxDecoration(
+              color: selected ? AppColors.blue : Colors.transparent,
+              borderRadius: BorderRadius.circular(14),
+            ),
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Text(
+                label,
+                style: TextStyle(
+                  fontWeight: FontWeight.w800,
+                  color: selected ? Colors.white : AppColors.inkSoft,
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+    }
+
+    return Container(
+      padding: const EdgeInsets.all(4),
+      decoration: BoxDecoration(
+        color: AppColors.cream,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: Row(
+        children: [
+          option('C#', 'Male Scale (C#)'),
+          option('G#', 'Female Scale (G#)'),
+        ],
+      ),
+    );
+  }
+
+  Widget _progressColumn(String label, int done, int total, IconData icon) {
+    return Column(
+      children: [
+        ProgressCircle(progress: total == 0 ? 0 : done / total, icon: icon),
+        const SizedBox(height: 10),
+        Text(label, style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 16)),
+        Text("$done/$total", style: const TextStyle(color: AppColors.inkSoft)),
+      ],
+    );
+  }
+
+  Widget _statCard(IconData icon, String value, String label, Color color) {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 6),
+      decoration: AppTheme.card(radius: 18),
       child: Column(
         children: [
-          Icon(icon, color: color),
+          Icon(icon, color: color, size: 28),
           const SizedBox(height: 8),
-          Text(
-            value,
-            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(value, style: AppTheme.heading(size: 22)),
           ),
           const SizedBox(height: 4),
-          Text(label, style: const TextStyle(color: Colors.grey)),
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(label, style: const TextStyle(color: AppColors.inkSoft)),
+          ),
         ],
       ),
     );

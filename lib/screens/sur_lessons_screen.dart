@@ -10,6 +10,8 @@ import 'lesson_player_screen.dart';
 import '../data/lesson_data.dart';
 import '../models/user_progress.dart';
 import '../models/question.dart';
+import '../theme/app_theme.dart';
+import '../widgets/lesson_tile.dart';
 
 class SurLessonsScreen extends StatefulWidget {
   const SurLessonsScreen({super.key});
@@ -24,7 +26,7 @@ class _SurLessonsScreenState extends State<SurLessonsScreen> {
     final user = AppState.currentUser ?? UserProgress(username: "Guest");
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF7F7F7),
+      backgroundColor: Colors.transparent,
       body: SafeArea(
         child: SingleChildScrollView(
           physics: const ClampingScrollPhysics(),
@@ -82,11 +84,7 @@ class _SurLessonsScreenState extends State<SurLessonsScreen> {
   Widget _buildSectionHeader(String title) {
     return Text(
       title,
-      style: const TextStyle(
-        fontSize: 26,
-        fontWeight: FontWeight.bold,
-        color: Colors.black,
-      ),
+      style: AppTheme.heading(size: 26, color: AppColors.blueDeep),
     );
   }
 
@@ -96,63 +94,24 @@ class _SurLessonsScreenState extends State<SurLessonsScreen> {
     required bool completed,
     required bool unlocked,
   }) {
-    Color bgColor;
-    IconData icon;
-
-    if (completed) {
-      bgColor = Colors.green.shade100;
-      icon = Icons.check;
-    } else if (unlocked) {
-      bgColor = Colors.orange.shade100;
-      icon = Icons.play_arrow;
-    } else {
-      bgColor = Colors.grey.shade200;
-      icon = Icons.lock;
-    }
-
     // Distinguish Shudh Sur lessons from Vakrit Sur lessons.
     final String lessonType =
         lesson.id.startsWith('vakrit-') ? 'vakrit' : 'sur';
 
-    return GestureDetector(
-      onTap: unlocked
-          ? () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => LessonPlayer(
-                    lesson: lesson,
-                    lessonType: lessonType,
-                  ),
-                ),
-              ).then((_) {
-                setState(() {});
-              });
-            }
-          : null,
-      child: Container(
-        margin: const EdgeInsets.only(bottom: 12),
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: bgColor,
-          borderRadius: BorderRadius.circular(18),
-        ),
-        child: Row(
-          children: [
-            CircleAvatar(
-              backgroundColor: Colors.white,
-              child: Icon(
-                icon,
-                color: unlocked || completed
-                    ? const Color(0xFF005099)
-                    : Colors.grey,
-              ),
-            ),
-            const SizedBox(width: 16),
-            Expanded(child: Text(lesson.title)),
-          ],
-        ),
-      ),
+    return LessonTile(
+      title: lesson.title,
+      completed: completed,
+      unlocked: unlocked,
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => LessonPlayer(lesson: lesson, lessonType: lessonType),
+          ),
+        ).then((_) {
+          if (mounted) setState(() {});
+        });
+      },
     );
   }
 }

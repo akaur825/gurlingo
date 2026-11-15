@@ -301,7 +301,7 @@ $greeting
         'ggrgrS',
         'gMPMgRS',
         'PgMRS',
-        'PgrSggMP',
+        'PGrSggMP',
         'gMDPMgRS',
         'SRgRgSgSRg',
       ],
@@ -353,7 +353,7 @@ $greeting
         'mdNS’Nr’S’',
         'gmdNdmgrS',
         'RMPdNdP',
-        'MPdPdMdMPD',
+        'MPdPdMdMPd',
       ],
     ),
 

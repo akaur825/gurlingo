@@ -239,7 +239,7 @@ final Map<String, RaagLessonContent> raagLessonContents = {
   ),
 
   // ---------------------------------------------------------------- BASANT
-  'raag-4': RaagLessonContent(
+  'raag-3': RaagLessonContent(
     name: 'Raag Basant',
     tagline: 'The Raag of spring and renewal',
     icon: Icons.local_florist,
@@ -297,7 +297,7 @@ final Map<String, RaagLessonContent> raagLessonContents = {
   ),
 
   // ---------------------------------------------------------------- KALYAN
-  'raag-5': RaagLessonContent(
+  'raag-4': RaagLessonContent(
     name: 'Raag Kalyan',
     tagline: 'Peace, serenity and inner balance',
     icon: Icons.nightlight_round,
@@ -348,7 +348,7 @@ final Map<String, RaagLessonContent> raagLessonContents = {
   ),
 
   // ---------------------------------------------------------------- BHAIRO
-  'raag-11': RaagLessonContent(
+  'raag-5': RaagLessonContent(
     name: 'Raag Bhairo',
     tagline: 'Pensive, serious and ancient',
     icon: Icons.wb_twilight,
@@ -394,7 +394,7 @@ final Map<String, RaagLessonContent> raagLessonContents = {
   ),
 
   // ---------------------------------------------------------------- TODI
-  'raag-8': RaagLessonContent(
+  'raag-6': RaagLessonContent(
     name: 'Raag Todi',
     tagline: 'Reflective and introspective',
     icon: Icons.self_improvement,
@@ -437,7 +437,7 @@ final Map<String, RaagLessonContent> raagLessonContents = {
   ),
 
   // ---------------------------------------------------------------- SARANG
-  'raag-9': RaagLessonContent(
+  'raag-7': RaagLessonContent(
     name: 'Raag Sarang',
     tagline: 'Only five notes, and a cooling feeling',
     icon: Icons.light_mode,
@@ -496,7 +496,7 @@ final Map<String, RaagLessonContent> raagLessonContents = {
   ),
 
   // ---------------------------------------------------------------- GOND
-  'raag-3': RaagLessonContent(
+  'raag-8': RaagLessonContent(
     name: 'Raag Gond',
     tagline: 'Victory with humility, and a longing for the Guru',
     icon: Icons.favorite_border,
@@ -551,7 +551,7 @@ final Map<String, RaagLessonContent> raagLessonContents = {
   ),
 
   // ---------------------------------------------------------------- MALHAR
-  'raag-10': RaagLessonContent(
+  'raag-9': RaagLessonContent(
     name: 'Raag Malhar',
     tagline: 'The Raag of the rain',
     icon: Icons.water_drop,
@@ -607,7 +607,7 @@ final Map<String, RaagLessonContent> raagLessonContents = {
   ),
 
   // ---------------------------------------------------------------- SRI RAAG
-  'raag-7': RaagLessonContent(
+  'raag-10': RaagLessonContent(
     name: 'Sri Raag',
     tagline: 'The first Raag: dignified and contemplative',
     icon: Icons.auto_awesome,
@@ -667,7 +667,7 @@ final Map<String, RaagLessonContent> raagLessonContents = {
   ),
 
   // ---------------------------------------------------------------- MARU
-  'raag-6': RaagLessonContent(
+  'raag-11': RaagLessonContent(
     name: 'Raag Maru',
     tagline: 'Strong, serious and intense',
     icon: Icons.bolt,

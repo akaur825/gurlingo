@@ -1,8 +1,10 @@
-//It holds three other screens inside it: 
-//Sur, Home, and Raag. When you click a tab 
-//at the bottom, MainScreen swaps the middle of 
+//It holds three other screens inside it:
+//Sur, Home, and Raag. When you click a tab
+//at the bottom, MainScreen swaps the middle of
 //the page to show that screen.
 import 'package:flutter/material.dart';
+import '../theme/app_theme.dart';
+import '../widgets/parchment_background.dart';
 import 'home_screen.dart';
 import 'sur_lessons_screen.dart';
 import 'raag_lessons_screen.dart';
@@ -25,34 +27,34 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    const Color brandBlue = Color(0xFF005099);
-    return Scaffold(
+    return PatternScaffold(
       body: screens[currentIndex],
-
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: currentIndex,
-        onTap: (index) {
-          setState(() {
-            currentIndex = index;
-          });
-        },
-
-        selectedItemColor: brandBlue,
-        unselectedItemColor: const Color.fromARGB(255, 76, 76, 76),
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.mic),
-            label: "Sur",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: "Home",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.music_note),
-            label: "Raag",
-          ),
-        ],
+      bottomNavigationBar: DecoratedBox(
+        decoration: const BoxDecoration(
+          border: Border(top: BorderSide(color: AppColors.frame, width: 1)),
+        ),
+        child: BottomNavigationBar(
+          currentIndex: currentIndex,
+          onTap: (index) {
+            setState(() {
+              currentIndex = index;
+            });
+          },
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.mic),
+              label: "Sur",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: "Home",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.music_note),
+              label: "Raag",
+            ),
+          ],
+        ),
       ),
     );
   }

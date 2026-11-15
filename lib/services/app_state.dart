@@ -75,13 +75,15 @@ class AppState {
 
   /// Call this when the user finishes a quiz. Adds XP, updates the streak (at most one
   /// increase per calendar day), and saves everything in one write.
-  static Future<void> finishQuiz({int xpGained = 0}) async {
+  /// Runs after every finished quiz, whether it was passed or failed. [now] is only
+  /// for tests; the app always uses the current time.
+  static Future<void> finishQuiz({int xpGained = 0, DateTime? now}) async {
     final user = currentUser;
     if (user == null) return;
 
     user.totalXp += xpGained;
 
-    final now = DateTime.now();
+    now ??= DateTime.now();
     final last = user.lastActiveDate;
     if (last == null) {
       user.streakDays = 1;

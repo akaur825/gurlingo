@@ -14,6 +14,13 @@ class LessonAudioService {
     return 'assets/audio/${_prefix(scale)}_${_raagFileKey(raag)}_avroh.mp3';
   }
 
+  // Raag recordings looked up by the lowercase audioKey used in
+  // raag_lesson_content.dart (for example 'bilaval').
+  static String raagAudioByKey(String scale, String audioKey,
+      {required bool avroh}) {
+    return 'assets/audio/${_prefix(scale)}_${audioKey}_${avroh ? 'avroh' : 'aroh'}.mp3';
+  }
+
   static String _raagFileKey(String raag) {
     const keys = {
       'Bilaval': 'bilaval',
@@ -70,6 +77,10 @@ class LessonAudioService {
   static String sargamAudio(String scale, String sequence) {
     final prefix = _prefix(scale);
 
+    // High-octave marks (S') are written in the lessons but not in the audio
+    // file names, so they are ignored when looking a recording up.
+    sequence = sequence.replaceAll("'", '').replaceAll('’', '');
+
     // A single note uses its individual Sur recording.
     if (sequence.length == 1) {
       return surAudio(scale, sequence);
@@ -110,16 +121,16 @@ class LessonAudioService {
 
       // Shudh Dha
       'GMPDDP': '_GMPDDP.mp3',
-      'RMPDS’DP': '_RMPDSDP.mp3',
+      'RMPDSDP': '_RMPDSDP.mp3',
       'MGRSGPD': '_MGRSGPD.mp3',
       'DDPDMRGMP': '_DDPDMRGMP.mp3',
       'SMGPMDP': '_SMGPMDP.mp3',
       'MPDPDMDMPD': '_MPDPDMDMPD.mp3',
 
       // Shudh Ni
-      'NS’DPMRS': '_NSDPMRS.mp3',
-      'SRMPNDS’': '_SRMPNDS.mp3',
-      'NNNS’DDPP': '_NNNSDDPP.mp3',
+      'NSDPMRS': '_NSDPMRS.mp3',
+      'SRMPNDS': '_SRMPNDS.mp3',
+      'NNNSDDPP': '_NNNSDDPP.mp3',
       'GMPDNDNDP': '_GMPDNDNDP.mp3',
       'MDNNNDGMG': '_MDNNNDGMG.mp3',
       'PDNDNPNPDN': '_PDNDNPNPDN.mp3',
@@ -135,7 +146,7 @@ class LessonAudioService {
       // Komal Ga
       'ggrgrS': '_ggrgrS.mp3',
       'gMPMgRS': '_gMPMgRS.mp3',
-      'PgMRS’': '_PgMRS.mp3',
+      'PgMRS': '_PgMRS.mp3',
       'PGrSggMP': '_PGrSggMP.mp3',
       'gMDPMgRS': '_gMDPMgRS.mp3',
       'SRgRgSgSRg': '_SRgRgSgSRg_komal.mp3',
@@ -151,14 +162,14 @@ class LessonAudioService {
       // Komal Dha
       'rgrPmdP': '_rgrPmdP.mp3',
       'ddPdddMPGM': '_ddPdddMPGM.mp3',
-      'mdNS’Nr’S’': '_mdNSNrS.mp3',
+      'mdNSNrS': '_mdNSNrS.mp3',
       'gmdNdmgrS': '_gmdNdmgrS.mp3',
       'RMPdNdP': '_RMPdNdP.mp3',
-      'MPdPdMdMPD': '_MPdPdMdMPD_komal.mp3',
+      'MPdPdMdMPd': '_MPdPdMdMPd_komal.mp3',
 
       // Komal Ni
-      'NS’NS’DnDn': '_NSNSDnDn.mp3',
-      'nDNS’DnP': '_nDNSDnP.mp3',
+      'NSNSDnDn': '_NSNSDnDn.mp3',
+      'nDNSDnP': '_nDNSDnP.mp3',
       'GMDnnDPP': '_GMDnnDPP.mp3',
       'RMPnnPnnnPMP': '_RMPnnPnnnPMP.mp3',
       'DGMPnDP': '_DGMPnDP.mp3',

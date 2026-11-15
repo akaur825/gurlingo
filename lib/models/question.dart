@@ -20,14 +20,12 @@ class Lesson {
   final String id;
   final String title;
   final String description;
-  final String videoDescription;
   final List<Question> questions;
 
   Lesson({
     required this.id,
     required this.title,
     required this.description,
-    this.videoDescription = '',
     required this.questions,
   });
 }

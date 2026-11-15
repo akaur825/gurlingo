@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:crypto/crypto.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../models/user_progress.dart';
 
 class LocalStorageService {
   static const String allUsersKey = "all_users";
@@ -53,8 +52,7 @@ class LocalStorageService {
       "passwordHash": _hashPassword(password, salt),
       "salt": salt,
       "totalXp": 0,
-      "streakDays": 1,
-      "lastActiveDate": dateKey(DateTime.now()),
+      "streakDays": 0, // the first finished quiz starts the streak at 1
       "preferredScale": "C#",
       "completedSurLessons": <String>[],
       "completedRaagLessons": <String>[],

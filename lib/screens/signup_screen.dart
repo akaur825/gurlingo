@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import '../widgets/parchment_background.dart';
 import '../services/local_storage_service.dart';
 import '../services/app_state.dart';
+import '../widgets/brand_logo.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -51,7 +53,7 @@ void handleSignup() async {
           "surLevel": 1,
           "raagLevel": 1,
           "totalXp": 0,
-          "streakDays": 1,
+          "streakDays": 0,
           "preferredScale": "C#",
           "completedSurLessons": <String>[],
           "completedRaagLessons": <String>[],
@@ -74,70 +76,53 @@ void handleSignup() async {
 
   @override
   Widget build(BuildContext context) {
-    const Color brandBlue = Color(0xFF005099);
-
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        iconTheme: const IconThemeData(color: brandBlue),
-        title: const Text(
-          "Get Started", 
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)
-        ),
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          children:[
-            TextField(
-              controller: nameController,
-              decoration: const InputDecoration(
-                labelText: "Full Name",
-                floatingLabelStyle: TextStyle(color: brandBlue),
-                focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: brandBlue, width: 2)),
-                border: OutlineInputBorder(),
+    return PatternScaffold(
+      appBar: AppBar(title: const Text("Get Started")),
+      body: SafeArea(
+        child: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(20),
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 440),
+              child: Column(
+                children: [
+                  const BrandLogo(maxSize: 150),
+                  const SizedBox(height: 24),
+                  TextField(
+                    controller: nameController,
+                    textCapitalization: TextCapitalization.words,
+                    decoration: const InputDecoration(labelText: "Full Name"),
+                  ),
+                  const SizedBox(height: 16),
+                  TextField(
+                    controller: emailController,
+                    keyboardType: TextInputType.emailAddress,
+                    decoration: const InputDecoration(labelText: "Email"),
+                  ),
+                  const SizedBox(height: 16),
+                  TextField(
+                    controller: passwordController,
+                    obscureText: true,
+                    decoration: const InputDecoration(labelText: "Create Password"),
+                  ),
+                  const SizedBox(height: 24),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: loading ? null : handleSignup,
+                      child: loading
+                          ? const SizedBox(
+                              height: 22,
+                              width: 22,
+                              child: CircularProgressIndicator(strokeWidth: 3),
+                            )
+                          : const Text("Create Account"),
+                    ),
+                  ),
+                ],
               ),
             ),
-            const SizedBox(height: 16),
-            TextField(
-              controller: emailController,
-              decoration: const InputDecoration(
-                labelText: "Email",
-                floatingLabelStyle: TextStyle(color: brandBlue),
-                focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: brandBlue, width: 2)),
-                border: OutlineInputBorder(),
-              ),
-            ),
-            const SizedBox(height: 16),
-            TextField(
-              controller: passwordController,
-              obscureText: true,
-              decoration: const InputDecoration(
-                labelText: "Create Password",
-                floatingLabelStyle: TextStyle(color: brandBlue),
-                focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: brandBlue, width: 2)),
-                border: OutlineInputBorder(),
-              ),
-            ),
-            const SizedBox(height: 24),
-            SizedBox(
-              width: double.infinity,
-              height: 55,
-              child: ElevatedButton(
-                onPressed: loading ? null : handleSignup,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: brandBlue,
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                ),
-                child: loading 
-                  ? const CircularProgressIndicator(color: Colors.white) 
-                  : const Text("Create Account"),
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );

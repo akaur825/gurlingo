@@ -4,6 +4,8 @@ import 'screens/signup_screen.dart';
 import 'screens/signin_screen.dart';
 import 'screens/main_screen.dart';
 import 'services/app_state.dart';
+import 'theme/app_theme.dart';
+import 'widgets/responsive.dart';
 
 // 1. Mark main as 'async'
 void main() async {
@@ -24,6 +26,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Gurlingo',
+      theme: AppTheme.light(),
+      builder: (context, child) => AppFrame(child: child ?? const SizedBox()),
       scrollBehavior: const MaterialScrollBehavior().copyWith(
         overscroll: false, 
       ),
