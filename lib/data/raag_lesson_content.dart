@@ -116,9 +116,79 @@ Map<String, List<String>> _forms([Map<String, List<String>> changes = const {}])
   return base;
 }
 
+
 final Map<String, RaagLessonContent> raagLessonContents = {
+  // ------------------------------------------------------ INTRODUCTION TO RAAG
+  'raag-1': RaagLessonContent(
+    name: 'Introduction to Raag',
+    tagline: 'Understanding the language of Raag',
+    icon: Icons.music_note,
+    audioKey: '',
+    raagNumber: 'Introduction',
+    ang: 'Overview',
+    thaat: 'Parent scale or framework',
+    jaati: 'Audav, Shadav and Sampooran',
+    jaatiMeaning: 'The number of notes used in ascending and descending movements',
+    time: 'Not applicable',
+    mood: 'Every Raag has its own musical character and emotion',
+    vaadee: 'Vadi',
+    vaadeeName: 'The most prominent note',
+    samvaadee: 'Samvadi',
+    samvaadeeName: 'The second most important note',
+    aroh: ['S', 'R', 'G', 'M', 'P', 'D', 'N', "S'"],
+    arohNote: 'Aroh is the ascending movement of a Raag.',
+    avroh: ["S'", 'N', 'D', 'P', 'M', 'G', 'R', 'S'],
+    avrohNote: 'Avroh is the descending movement of a Raag.',
+    mukhAng: [],
+    mukhAngNote: 'Characteristic phrases that help identify a Raag.',
+    noteForms: _forms(),
+    story: [
+      'Waheguru Ji Ka Khalsa, Waheguru Ji Ki Fateh.',
+      'Before we learn individual Raags, we need to understand the basic terms used to describe them.',
+      'Let’s start with the most important question: what exactly is a Raag?',
+      'A Raag is a set of notes ascending and descending a scale that provokes a specific emotion. A Raag is much more than just a musical scale because two Raags can use many of the same notes but still sound completely different because they use those notes in different ways.',
+      'In Gurmat Sangeet, Raag is especially important because Sri Guru Granth Sahib Ji is organized primarily according to Raags. There are 31 Shudh Raags in Sri Guru Granth Sahib Ji, along with various mixed or Mishrat Raags, but here, we will be focusing primarily on Shudh Raags.',
+      'When studying a Raag, we are not just memorizing which notes belong to it. We are learning how those notes move, which notes are important, which phrases identify them, and how the Raag creates its own musical character.',
+      'Let’s start with the movement of the notes. The ascending movement of a Raag is called the Aroh. For example, in a simple seven-note scale, we might have Sa, Re, Ga, Ma, Pa, Dha, Ni, Sa. That is the Aroh — the upward movement.',
+      'The descending movement is called the Avroh. We would come back down: Sa, Ni, Dha, Pa, Ma, Ga, Re, Sa.',
+      'But here is something important: the Aroh and Avroh of a Raag do not always simply go straight up and straight down. A Raag may skip certain notes, repeat notes, change direction, or use a particular combination of notes. That is one of the reasons why Raags can have such distinct identities.',
+      'Now that we understand how the notes move, let’s talk about the notes that are especially important within a Raag.',
+      'The most prominent note is called the Vadi sur. You can think of the Vadi as the main or most important note of the Raag. The second most important note is called the Samvadi sur. The relationship between the Vadi and Samvadi helps give the Raag its particular character.',
+      'After the Vadi and Samvadi, we have the Anuvadi notes. These are the other notes that are permitted and used within the Raag, but they are not as prominent as the Vadi and Samvadi.',
+      'The final category of notes we need to understand in a Raag are Varjit notes. Varjit means forbidden or omitted. A note can be Varjit from a particular movement of the Raag. For example, if a note is Varjit in the Aroh, that note is not used while ascending. If it is Varjit in the Avroh, it is not used while descending. This is important because not every Raag uses all seven notes in both directions.',
+      'This brings us to the idea of Jaati. Jaati describes the number of notes used in the Aroh and Avroh of a Raag. There are three basic categories: Audav means five notes, Shadav means six notes, and Sampooran means seven notes.',
+      'Because the Aroh and Avroh can use different numbers of notes, these categories can be used in various combinations. For example, Audav-Sampooran means five notes in the Aroh and seven notes in the Avroh. Shadav-Audav means six notes in the Aroh and five notes in the Avroh. So when you see the Jaati of a Raag, it gives you an immediate idea of how many notes are being used in its ascending and descending movements.',
+      'Now that we understand the individual notes and the structure of those notes, we can zoom out and look at a larger classification system: Thaat. A Thaat is a parent scale or framework used to classify Raags. You can think of a Thaat as a larger family of notes, and individual Raags as different ways of arranging and using those notes. Raags in the same Thaat can share the same basic set of notes but still have completely different identities because their Aroh, Avroh, Vadi, Samvadi, and other features can be different.',
+      'Finally, we have one of the most useful concepts for actually recognizing a Raag. Mukh Ang means the characteristic or identifying phrases of a Raag. These are specific combinations or movements of notes that help give a Raag its recognizable sound.',
+      'Once you understand these terms, the information in the rest of this series will make a lot more sense. We are not trying to memorize every Raag yet. We are learning how to look at a Raag, understand its structure, and listen for what makes it unique.',
+      'Waheguru Ji Ka Khalsa, Waheguru Ji Ki Fateh.',
+    ],
+    listenFor: [
+      'Aroh is the ascending movement of notes.',
+      'Avroh is the descending movement of notes.',
+      'Vadi is the most prominent note; Samvadi is the second most important.',
+      'Varjit notes are omitted in a particular movement.',
+      'Jaati tells us how many notes are used going up and coming down.',
+      'Thaat is the parent scale or framework.',
+      'Mukh Ang contains the characteristic phrases that help identify a Raag.',
+    ],
+    exampleShabad: 'Introduction to the concepts used to understand Raags.',
+    remember: [
+      'Aroh: ascending movement',
+      'Avroh: descending movement',
+      'Vadi: most prominent note',
+      'Samvadi: second most important note',
+      'Anuvadi: other permitted notes',
+      'Varjit: omitted notes',
+      'Jaati: number of notes in Aroh and Avroh',
+      'Thaat: parent scale or framework',
+      'Mukh Ang: characteristic phrases of a Raag',
+    ],
+  ),
+
   // ---------------------------------------------------------------- BILAVAL
   'raag-2': RaagLessonContent(
+
     name: 'Raag Bilaval',
     tagline: 'The Raag of joy and contentment',
     icon: Icons.wb_sunny_outlined,
@@ -596,12 +666,12 @@ final Map<String, RaagLessonContent> raagLessonContents = {
     ],
   ),
 
-  // ---------------------------------------------------------------- MAAROO
+  // ---------------------------------------------------------------- MARU
   'raag-6': RaagLessonContent(
-    name: 'Raag Maaroo',
+    name: 'Raag Maru',
     tagline: 'Strong, serious and intense',
     icon: Icons.bolt,
-    audioKey: 'maaroo',
+    audioKey: 'maru',
     raagNumber: '21st Raag',
     ang: 'Ang 989 to 1107',
     thaat: 'Khamaj',

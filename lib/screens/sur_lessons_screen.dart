@@ -3,6 +3,7 @@
 //notes (Sur). It handles locking/unlocking lessons 
 //sequentially. Unlocked ones are orange, completed 
 //ones are green, and locked ones are grey.
+
 import 'package:flutter/material.dart';
 import '../services/app_state.dart';
 import 'lesson_player_screen.dart';
@@ -20,7 +21,6 @@ class SurLessonsScreen extends StatefulWidget {
 class _SurLessonsScreenState extends State<SurLessonsScreen> {
   @override
   Widget build(BuildContext context) {
-    // Pulls fresh user progress every time the widget builds or rebuilds
     final user = AppState.currentUser ?? UserProgress(username: "Guest");
 
     return Scaffold(
@@ -32,15 +32,16 @@ class _SurLessonsScreenState extends State<SurLessonsScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // --- Section 1: Sur Recognition ---
               _buildSectionHeader("Shudh Sur Recognition"),
               const SizedBox(height: 16),
+
               ...List.generate(surLessons.length, (index) {
                 final lesson = surLessons[index];
 
-                bool completed = user.completedSurLessons.contains(lesson.id);
-                // Unlocks sequentially for the first list
-                bool unlocked = index <= user.completedSurLessons.length;
+                final completed =
+                    user.completedSurLessons.contains(lesson.id);
+                final unlocked =
+                    index <= user.completedSurLessons.length;
 
                 return _lessonCard(
                   context: context,
@@ -50,17 +51,19 @@ class _SurLessonsScreenState extends State<SurLessonsScreen> {
                 );
               }),
 
-              const SizedBox(height: 32), // Clear spacing between sections
+              const SizedBox(height: 32),
 
-              // --- Section 2: Vakrit Sur Recognition ---
               _buildSectionHeader("Vakrit Sur Recognition"),
               const SizedBox(height: 16),
+
               ...List.generate(vakritSurLessons.length, (index) {
                 final lesson = vakritSurLessons[index];
 
-                bool completed = user.completedSurLessons.contains(lesson.id);
-                // Unlocks sequentially only AFTER all standard surLessons are completed
-                bool unlocked = (surLessons.length + index) <= user.completedSurLessons.length;
+                final completed =
+                    user.completedSurLessons.contains(lesson.id);
+                final unlocked =
+                    (surLessons.length + index) <=
+                        user.completedSurLessons.length;
 
                 return _lessonCard(
                   context: context,
@@ -76,7 +79,6 @@ class _SurLessonsScreenState extends State<SurLessonsScreen> {
     );
   }
 
-  // Section Header Helper to keep UI text clean and uniform
   Widget _buildSectionHeader(String title) {
     return Text(
       title,
@@ -108,6 +110,10 @@ class _SurLessonsScreenState extends State<SurLessonsScreen> {
       icon = Icons.lock;
     }
 
+    // Distinguish Shudh Sur lessons from Vakrit Sur lessons.
+    final String lessonType =
+        lesson.id.startsWith('vakrit-') ? 'vakrit' : 'sur';
+
     return GestureDetector(
       onTap: unlocked
           ? () {
@@ -116,11 +122,10 @@ class _SurLessonsScreenState extends State<SurLessonsScreen> {
                 MaterialPageRoute(
                   builder: (_) => LessonPlayer(
                     lesson: lesson,
-                    lessonType: 'sur',
+                    lessonType: lessonType,
                   ),
                 ),
               ).then((_) {
-                // Refresh progress state when returning to this screen
                 setState(() {});
               });
             }
@@ -138,8 +143,8 @@ class _SurLessonsScreenState extends State<SurLessonsScreen> {
               backgroundColor: Colors.white,
               child: Icon(
                 icon,
-                color: unlocked || completed 
-                    ? const Color(0xFF005099) 
+                color: unlocked || completed
+                    ? const Color(0xFF005099)
                     : Colors.grey,
               ),
             ),
